@@ -100,6 +100,29 @@
   .btn-ghost { background: var(--white); color: var(--black); }
   .btn-ghost:hover { background: var(--off-white); }
 
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border: 2px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+  }
+  .quiz-option:hover,
+  .quiz-option:focus-visible {
+    background: var(--black);
+    color: var(--white);
+  }
+  .quiz-option + .quiz-option {
+    border-top: none;
+  }
+
   /* ── CODE BLOCKS ── */
   .codeblock {
     background: var(--black);
@@ -375,9 +398,6 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 48px;">
-      <button class="btn" onclick="State.markComplete(); Router.navigate('complete')">finish →</button>
-    </div>
   </div>
 </section>
 
@@ -632,7 +652,10 @@ document.addEventListener('keydown', (e) => {
   if (idx === -1) return;
 
   if (e.key === 'ArrowRight' && idx < Router.screens.length - 1) {
-    Router.navigate(Router.screens[idx + 1]);
+    const nextScreen = Router.screens[idx + 1];
+    // Don't allow skipping past diagnosis if not completed
+    if (nextScreen.startsWith('block-') && !State.hasDiagnosis()) return;
+    Router.navigate(nextScreen);
   }
   if (e.key === 'ArrowLeft' && idx > 0) {
     Router.navigate(Router.screens[idx - 1]);
@@ -712,15 +735,7 @@ const Quiz = {
         <h2 class="headline-lg" style="margin-bottom: 40px;">${q.text}</h2>
         <div style="display: flex; flex-direction: column; gap: 0;">
           ${q.options.map((opt, idx) => `
-            <button class="quiz-option" onclick="Quiz.answer(${opt.points})" style="
-              display: flex; align-items: center; gap: 20px;
-              padding: 20px 24px;
-              border: 2px solid var(--black); ${idx < q.options.length - 1 ? 'border-bottom: none;' : ''}
-              background: var(--white); color: var(--black);
-              font-family: var(--font-mono); font-size: 14px;
-              text-align: left; cursor: pointer; width: 100%;
-            " onmouseover="this.style.background='var(--black)';this.style.color='var(--white)'"
-               onmouseout="this.style.background='var(--white)';this.style.color='var(--black)'">
+            <button class="quiz-option" onclick="Quiz.answer(${opt.points})">
               <span style="font-weight: 700; min-width: 24px;">${opt.letter}</span>
               <span>${opt.text}</span>
             </button>
