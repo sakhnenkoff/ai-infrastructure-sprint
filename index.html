@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Infrastructure Sprint</title>
-<meta name="description" content="Build your AI infrastructure in 30 minutes. Context files, skills, orchestration, integrations — the environment that makes AI useful.">
+<meta name="description" content="The gap between you and the engineer replacing you isn't talent. It's 6 files in a .claude/ directory. Fix this in 30 minutes.">
 <meta property="og:title" content="AI Infrastructure Sprint">
-<meta property="og:description" content="You wouldn't ship without CI. So why are you AI-ing without infrastructure? Build yours in 30 minutes.">
+<meta property="og:description" content="The gap between you and the engineer replacing you isn't talent. It's 6 files in a .claude/ directory. Fix this in 30 minutes.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sakhnenkoff.github.io/ai-infrastructure-sprint/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Infrastructure Sprint">
-<meta name="twitter:description" content="You wouldn't ship without CI. So why are you AI-ing without infrastructure? Build yours in 30 minutes.">
+<meta name="twitter:description" content="The gap between you and the engineer replacing you isn't talent. It's 6 files in a .claude/ directory. Fix this in 30 minutes.">
 <meta name="author" content="Matvii Sakhnenko">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -343,16 +343,16 @@
     </div>
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
       <h1 class="headline-xl" style="margin-bottom: 12px;">
-        you wouldn't ship<br>without CI.
+        the gap between you and the engineer replacing you isn't talent.
       </h1>
       <p class="headline-lg text-light text-grey" style="margin-bottom: 40px;">
-        so why are you AI-ing<br>without infrastructure?
+        it's 6 files in a <code style="font-family: var(--font-mono); background: var(--off-white); padding: 2px 8px; border: 1px solid var(--grey-light);">.claude/</code> directory.
       </p>
       <p class="mono-sm text-grey" style="margin-bottom: 48px;">
-        most teams gave their engineers an AI tool and said "figure it out."
+        next quarter someone will ask what changed since you adopted AI. what's your answer?
       </p>
       <div>
-        <button class="btn" onclick="Router.navigate('diagnose')">diagnose your workflow →</button>
+        <button class="btn" onclick="Router.navigate('diagnose')">fix this in 30 minutes →</button>
       </div>
     </div>
   </div>
@@ -382,29 +382,49 @@
 <section class="screen" id="block-2"></section>
 <section class="screen" id="block-3"></section>
 <section class="screen" id="block-4"></section>
-<section class="screen" id="block-5"></section>
-<section class="screen" id="block-6"></section>
-<section class="screen" id="block-7">
+<section class="screen" id="block-5">
   <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
     <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
-      <span class="mono" style="font-size: 24px; font-weight: 700;">7 / 7</span>
-      <span class="mono-sm text-grey">~1 min</span>
+      <span class="mono" style="font-size: 24px; font-weight: 700;">5 / 5</span>
+      <span class="mono-sm text-grey">~3 min</span>
     </div>
-    <div style="max-width: 720px; margin-top: 32px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
-      <h2 class="headline-lg" style="margin-bottom: 48px;">what's next.</h2>
-      <div style="display: flex; flex-direction: column; gap: 32px;">
-        <div style="border-left: var(--border-thick); padding-left: 24px;">
-          <p class="headline-md">wrong answer twice → add a rule.</p>
-          <p class="mono-sm text-grey" style="margin-top: 8px;">don't correct the AI manually. encode the correction.</p>
+    <div style="max-width: 720px; margin-top: 32px; flex: 1;">
+      <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
+      <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
+      <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 32px;">
+        you just built four layers. separately, they're features. together, they're infrastructure. this is the moment they click.
+      </p>
+      <div class="codeblock" style="margin-bottom: 32px;">
+        <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (entry point)
+  └→ AGENTS.md (governance: policies, skill index, architecture)
+      ├→ .claude/skills/ (your encoded workflows)
+      ├→ .claude/rules/ (your encoded corrections)
+      ├→ Module-level AGENTS.md (domain overrides)
+      └→ MCP servers (external tool access)</pre>
+      </div>
+      <div style="margin-top: 16px;">
+        <div class="step">
+          <div class="step-check" onclick="handleStepCheck(5, 0, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 0, this)}"></div>
+          <div class="step-text">Review the architecture diagram above — map YOUR files to each layer</div>
         </div>
-        <div style="border-left: var(--border-thick); padding-left: 24px;">
-          <p class="headline-md">repeated workflow → create a skill.</p>
-          <p class="mono-sm text-grey" style="margin-top: 8px;">if you explained it once, you'll explain it again. automate it.</p>
+        <div class="step">
+          <div class="step-check" onclick="handleStepCheck(5, 1, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 1, this)}"></div>
+          <div class="step-text">
+            Test the compound: give Claude a task that touches multiple layers
+            <br><span style="color: var(--grey); font-size: 12px;">Pick a task that requires your context, uses a skill, benefits from Plan Mode, and pulls data from an MCP server. Watch it work.</span>
+          </div>
         </div>
-        <div style="border-left: var(--border-thick); padding-left: 24px;">
-          <p class="headline-md">context gets stale → update CLAUDE.md.</p>
-          <p class="mono-sm text-grey" style="margin-top: 8px;">your codebase evolves. your context should too.</p>
+        <div class="step">
+          <div class="step-check" onclick="handleStepCheck(5, 2, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 2, this)}"></div>
+          <div class="step-text">
+            Internalize the maintenance rules
+            <br><span style="color: var(--grey); font-size: 12px;">Wrong answer twice → add a rule. Repeated workflow → create a skill. Context gets stale → update CLAUDE.md.</span>
+          </div>
         </div>
+      </div>
+      <div class="proof">
+        <div class="proof-label">you'll know it worked when</div>
+        <p class="proof-text">Claude executes a multi-layer task using context, skills, and integrations together — without you explaining any of it.</p>
       </div>
     </div>
   </div>
@@ -418,7 +438,7 @@
     </div>
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
       <h1 class="headline-xl" style="margin-bottom: 24px;">
-        you just built your<br>AI infrastructure.
+        next time someone asks what changed since you adopted AI —<br>you have an answer.
       </h1>
       <div style="border-top: var(--border-thick); padding-top: 24px; margin-bottom: 32px;">
         <p class="mono" style="font-size: 36px; font-weight: 700;" id="finalScore"></p>
@@ -434,10 +454,10 @@
       </div>
       <!-- Course upsell -->
       <div style="border: var(--border-thin); padding: 24px; margin-top: 32px;">
-        <p class="headline-md" style="margin-bottom: 8px;">want to go deeper?</p>
+        <p class="headline-md" style="margin-bottom: 8px;">this was the system.</p>
         <p class="mono-sm text-grey" style="margin-bottom: 16px; line-height: 1.7;">
-          The sprint got you started. The full course covers advanced workflows, team onboarding,
-          MCP server deep dives, skill authorship, and the philosophy behind AI infrastructure.
+          the full course covers team rollout — how to onboard 50 engineers, write governance policies,
+          build custom MCP servers, and measure whether AI adoption actually changed anything.
         </p>
         <a href="https://github.com/sakhnenkoff/ai-infrastructure-course" target="_blank" class="btn" style="text-decoration: none;">explore the full course →</a>
       </div>
@@ -461,8 +481,6 @@
 <!-- ══════ PROGRESS BAR ══════ -->
 <div class="progress-bar" id="progressBar" style="display: none;">
   <div class="progress-segments">
-    <div class="progress-seg"></div>
-    <div class="progress-seg"></div>
     <div class="progress-seg"></div>
     <div class="progress-seg"></div>
     <div class="progress-seg"></div>
@@ -522,9 +540,9 @@ const State = {
   saveDiagnosis(answers) {
     const s = this.load();
     const score = answers.reduce((a, b) => a + b, 0);
-    let tier = 'surface-user';
-    if (score >= 3) tier = 'getting-there';
-    if (score >= 6) tier = 'infrastructure-builder';
+    let tier = 'no-infrastructure';
+    if (score >= 3) tier = 'has-pieces';
+    if (score >= 5) tier = 'ahead';
     s.diagnosis = { q1: answers[0], q2: answers[1], q3: answers[2], score, tier };
     this.save(s);
     return s.diagnosis;
@@ -564,7 +582,7 @@ const State = {
   },
 
   getTotalActions() {
-    return 24;
+    return 19;
   },
 
   getElapsedMinutes() {
@@ -588,7 +606,7 @@ const State = {
 
 // ── ROUTER ──
 const Router = {
-  screens: ['hook', 'diagnose', 'block-1', 'block-2', 'block-3', 'block-4', 'block-5', 'block-6', 'block-7', 'complete'],
+  screens: ['hook', 'diagnose', 'block-1', 'block-2', 'block-3', 'block-4', 'block-5', 'complete'],
 
   init() {
     window.addEventListener('hashchange', () => this.route());
@@ -626,9 +644,9 @@ const Router = {
         const blockNum = parseInt(target.split('-')[1]);
         const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
-          nextBtn.textContent = blockNum === 7 ? 'finish →' : 'next →';
+          nextBtn.textContent = blockNum === 5 ? 'finish →' : 'next →';
           nextBtn.onclick = () => {
-            if (blockNum === 7) State.markComplete();
+            if (blockNum === 5) State.markComplete();
             navigateBlock(1);
           };
         }
@@ -700,32 +718,29 @@ const Quiz = {
   questions: [
     {
       num: '01',
-      text: 'what does your CLAUDE.md look like?',
+      text: 'open your project right now. do you have a CLAUDE.md?',
       options: [
-        { letter: 'A', text: "what's a CLAUDE.md?", points: 0 },
-        { letter: 'B', text: "I've seen one but haven't written my own", points: 1 },
-        { letter: 'C', text: "I have one but it's basic", points: 2 },
-        { letter: 'D', text: "it describes our architecture and links to docs", points: 3 }
+        { letter: 'A', text: 'no', points: 0 },
+        { letter: 'B', text: "yes, but I haven't touched it in weeks", points: 1 },
+        { letter: 'C', text: 'yes, and it describes my architecture, conventions, and key files', points: 2 }
       ]
     },
     {
       num: '02',
-      text: 'how do you use AI coding tools?',
+      text: 'how does your team reuse AI workflows?',
       options: [
-        { letter: 'A', text: 'autocomplete and chat', points: 0 },
-        { letter: 'B', text: 'I prompt for code generation and reviews', points: 1 },
-        { letter: 'C', text: 'I use skills and Plan Mode', points: 2 },
-        { letter: 'D', text: 'custom skills, hooks, subagent workflows', points: 3 }
+        { letter: 'A', text: "we don't. everyone prompts their own way", points: 0 },
+        { letter: 'B', text: 'we share prompts in Slack sometimes', points: 1 },
+        { letter: 'C', text: 'we have skills or documented workflows the AI executes', points: 2 }
       ]
     },
     {
       num: '03',
-      text: "what's connected to your AI workflow?",
+      text: "what can your AI access beyond your code?",
       options: [
-        { letter: 'A', text: 'nothing — just the AI and my editor', points: 0 },
-        { letter: 'B', text: 'a plugin or two', points: 1 },
-        { letter: 'C', text: 'build tools or design tools via MCP', points: 2 },
-        { letter: 'D', text: 'multiple MCP servers, integrated daily', points: 3 }
+        { letter: 'A', text: 'nothing', points: 0 },
+        { letter: 'B', text: 'maybe a plugin or two', points: 1 },
+        { letter: 'C', text: 'build tools, design tools, or project management through MCP', points: 2 }
       ]
     }
   ],
@@ -783,12 +798,12 @@ const Quiz = {
     const reveal = document.getElementById('scoreReveal');
     reveal.style.display = 'flex';
 
-    document.getElementById('scoreNumber').textContent = result.score + ' / 9';
+    document.getElementById('scoreNumber').textContent = result.score + ' / 6';
 
     const tiers = {
-      'surface-user': { label: 'surface user.', verdict: "you use AI. you haven't built infrastructure around it." },
-      'getting-there': { label: 'getting there.', verdict: 'some pieces exist. gaps remain.' },
-      'infrastructure-builder': { label: 'infrastructure builder.', verdict: "you're ahead. this will sharpen your edge." }
+      'no-infrastructure': { label: 'no infrastructure.', verdict: 'your AI starts from zero every conversation. all 5 blocks apply.' },
+      'has-pieces': { label: 'pieces, not a system.', verdict: "you have fragments. they don't connect. blocks 2–5 will close the gaps." },
+      'ahead': { label: "you're ahead.", verdict: 'this sprint will sharpen what you have and show you the full system.' }
     };
 
     const tier = tiers[result.tier];
@@ -800,82 +815,56 @@ const Quiz = {
 // ── BLOCK DATA ──
 const BLOCKS = {
   1: {
-    title: 'the foundation.',
-    time: '~5 min',
-    promise: "you'll have Claude Code running with power-user shortcuts",
-    context: "Claude Code is a terminal-native AI assistant. It reads your project, follows your rules, and executes multi-step tasks. But most engineers use 10% of it. These shortcuts separate beginners from power users.",
-    steps: [
-      { text: 'Install Claude Code (or verify it\'s installed)', code: 'npm install -g @anthropic-ai/claude-code' },
-      { text: 'Authenticate with your Anthropic account', code: 'claude auth' },
-      { text: 'Try the <code>!</code> prefix — run shell commands from chat', detail: 'Type <code>!git status</code> inside Claude Code. It runs the command and shows the output.' },
-      { text: 'Try <strong>Esc Esc</strong> — quick re-edit your last prompt', detail: 'After sending a message, double-tap Escape to edit and re-send it.' },
-      { text: 'Try <strong>Shift+Tab</strong> — accept a suggestion', detail: 'When Claude suggests a file edit, Shift+Tab accepts it instantly.' },
-      { text: 'Run <code>/context</code> to see your token breakdown', detail: 'Shows how much of your context window is used by files, instructions, and conversation.' }
-    ],
-    proof: "You should see your context token breakdown — files, instructions, conversation."
-  },
-  2: {
     title: 'the context layer.',
     time: '~8 min',
-    promise: 'your AI knows your codebase',
-    context: "Without context, every AI conversation starts from zero. CLAUDE.md tells the AI what your project is. Rules encode your conventions. Together, they make the AI stop being generic and start knowing your codebase.",
+    promise: 'your AI actually knows your codebase',
+    context: "you have a CLAUDE.md. congrats. is it actually connected to anything? or is it a README the AI half-reads?",
     steps: [
-      { text: 'Create <code>CLAUDE.md</code> in your project root', code: '# Project Context\n\n## Architecture\n[Describe your stack: language, framework, key libraries]\n\n## Conventions\n[List 3-5 patterns your team follows]\n\n## Key Files\n[Point to the most important files/directories]' },
-      { text: 'Add one rule to <code>.claude/rules/</code>', code: 'mkdir -p .claude/rules\ncat > .claude/rules/conventions.md << \'EOF\'\n# Team Conventions\n\n- [A convention your team always follows]\n- [Another convention]\nEOF' },
-      { text: 'Ask Claude about your architecture — it should answer correctly', detail: 'Start a new Claude Code session in your project. Ask: "Describe the architecture of this project." It should reference what you wrote in CLAUDE.md.' }
+      { text: 'Audit your <code>CLAUDE.md</code> — does it link to <code>AGENTS.md</code>?', detail: 'Does AGENTS.md index your skills, rules, and docs? If not, you have a file, not a context layer.' },
+      { text: 'Add a module-level <code>AGENTS.md</code> in one subdirectory', detail: 'Domain-specific overrides that the root file can\'t cover. Pick a module with its own conventions.' },
+      { text: 'Add one rule to <code>.claude/rules/</code> that encodes a mistake Claude keeps making', detail: 'Not a convention — a correction. Something Claude gets wrong repeatedly in your project. Encode it so it never happens again.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [Describe the mistake]\n\n[What Claude should do instead]\nEOF' },
+      { text: 'Run <code>/context</code> — check what\'s actually being loaded', detail: 'If your context is 90% boilerplate, strip it. Every token should earn its place.' }
     ],
-    proof: "Claude references your architecture without you explaining it."
+    proof: "Your CLAUDE.md → AGENTS.md → rules → module AGENTS.md form a connected chain. /context confirms all layers load."
+  },
+  2: {
+    title: 'the skill layer.',
+    time: '~6 min',
+    promise: 'your workflows are encoded, not explained',
+    context: "you have a skill or two. your team still explains the same code review checklist to Claude every PR. that's not a skill system — that's a demo you forgot to finish.",
+    steps: [
+      { text: 'Open your <code>.claude/skills/</code> — how many workflows are encoded?', detail: 'How many workflows does your team repeat daily that aren\'t skills yet? Pick the most painful one.' },
+      { text: 'Write a skill that encodes YOUR team\'s actual process', detail: 'Not a generic template. A skill with your conventions, your file patterns, your review criteria.', code: 'cat > .claude/skills/your-workflow.md << \'EOF\'\n---\nname: your-workflow\ndescription: [What this workflow does]\n---\n\n# [Workflow Name]\n\n1. [First step with YOUR conventions]\n2. [Second step referencing YOUR patterns]\n3. [Third step with YOUR criteria]\nEOF' },
+      { text: 'Test it — run <code>/your-workflow</code> in Claude Code', detail: 'Does it follow the process without hand-holding? Does it reference your project conventions?' },
+      { text: 'Add it to your AGENTS.md skill index', detail: 'So the team can discover it. A skill nobody knows about is a skill nobody uses.' }
+    ],
+    proof: "A teammate can invoke your skill and get the same quality output you would — without knowing the process themselves."
   },
   3: {
     title: 'the orchestration layer.',
     time: '~6 min',
-    promise: "you'll plan before you execute",
-    context: "Most engineers go straight from prompt to code. Plan Mode makes Claude think first — it generates a structured plan you can review and edit before any code is written. Subagents let you run multiple streams of work in parallel.",
+    promise: 'you plan before you execute',
+    context: "you go from prompt to code in one shot. sometimes it works. sometimes you spend 40 minutes fixing what Claude confidently broke. that's not a workflow — that's gambling.",
     steps: [
-      { text: 'Enter Plan Mode', code: '/plan', detail: 'Type <code>/plan</code> in Claude Code. The prompt changes to indicate you\'re in planning mode.' },
-      { text: 'Give Claude a real task from your backlog', detail: 'Pick something you actually need to do. Not a toy example — a real task. Describe it in 2-3 sentences.' },
-      { text: 'Review the plan it generates — edit it before executing', detail: 'Claude will produce a step-by-step plan. Read it. Edit steps that don\'t match your approach. Then approve to execute.' },
-      { text: 'Understand: subagents work in parallel on independent subtasks', detail: 'When Claude identifies independent pieces of work, it can dispatch subagents to handle them simultaneously. One engineer, multiple streams of work.' }
+      { text: 'Take a real task from your backlog', detail: 'Not a toy. Something with 2–3 files and at least one architectural decision.' },
+      { text: 'Use Plan Mode — let Claude generate a plan', detail: 'Does it reference your AGENTS.md conventions? If not, your context layer isn\'t working. Go back to block 1.', code: 'Shift+Tab to toggle Plan Mode\n# or\n/plan' },
+      { text: 'Edit the plan before executing', detail: 'Remove the steps that are wrong. Add constraints Claude missed. This is the part most people skip — and why their output is unpredictable.' },
+      { text: 'Execute — watch subagents handle independent subtasks in parallel', detail: 'One engineer, multiple streams of work. Claude dispatches subagents for independent pieces automatically.' }
     ],
-    proof: "You have a plan document Claude generated before touching code."
+    proof: "You have a reviewed plan that Claude generated using YOUR project context — before a single line of code was written."
   },
   4: {
-    title: 'designing work for AI.',
-    time: '~5 min',
-    promise: "you'll write tasks agents can execute",
-    context: "Vague tasks produce vague results. The ticket anatomy template structures tasks so AI agents have everything they need: what to build, why it matters, which files to touch, and explicit instructions.",
-    steps: [
-      { text: 'Pick one task from your real backlog', detail: 'Choose something small — a bug fix, a refactor, a small feature. Not the biggest thing on your plate.' },
-      { text: 'Rewrite it using the ticket anatomy template', code: '## What\n[Concrete deliverable — what exists after this is done]\n\n## Why\n[Business context — why this matters]\n\n## Context\n[Relevant files, constraints, dependencies]\n\n## Agent Instructions\n[Explicit steps the AI should follow]' },
-      { text: 'Feed the rewritten task to Claude and compare output quality', detail: 'Paste your rewritten task into Claude Code. Compare the output quality to what you\'d get from a vague one-liner like "fix the login bug."' }
-    ],
-    proof: "The rewritten task produces noticeably better output than a vague prompt."
-  },
-  5: {
-    title: 'your first skill.',
-    time: '~5 min',
-    promise: "you'll have a custom skill your whole team can use",
-    context: "Skills are repeatable workflows encoded as markdown. Instead of explaining a process every time, you write it once as a skill. Your whole team can invoke it. Think of it as a runbook that the AI executes.",
-    steps: [
-      { text: 'Create the <code>.claude/skills/</code> directory', code: 'mkdir -p .claude/skills' },
-      { text: 'Create a skill file', code: 'cat > .claude/skills/code-review.md << \'EOF\'\n---\nname: code-review\ndescription: Review code for quality, security, and conventions\n---\n\n# Code Review\n\n1. Check for security issues (hardcoded secrets, injection vectors)\n2. Verify error handling is present\n3. Check naming conventions match project style\n4. Flag any TODO/FIXME comments\n5. Suggest specific improvements with code examples\nEOF' },
-      { text: 'Test the skill by invoking it', detail: 'In Claude Code, type <code>/code-review</code>. Claude should follow the workflow you defined.' },
-      { text: 'Customize it — change the steps to match your team\'s actual review process', detail: 'Edit the skill file. Replace the generic steps with what your team actually checks during code review.' }
-    ],
-    proof: "Running your skill triggers the custom workflow."
-  },
-  6: {
     title: 'the integrations layer.',
     time: '~5 min',
-    promise: 'your AI reaches the tools you already use',
-    context: "MCP (Model Context Protocol) servers connect Claude to external systems — build tools, design tools, project management, analytics. The AI stops being isolated and starts operating inside your actual workflow.",
+    promise: 'your AI reaches the tools you actually use',
+    context: "your AI can read your code. it can't read your Jira tickets, your Figma designs, your crash logs, or your build output. it's working with one hand tied behind its back and you never untied it.",
     steps: [
-      { text: 'Check what MCP servers are already connected', code: 'claude mcp list' },
-      { text: 'Add one MCP server relevant to your stack', code: '# Pick one:\n\n# Web/Frontend — browser automation\nclaude mcp add playwright -- npx @anthropic-ai/mcp-playwright\n\n# iOS/Mobile — build, test, run\nclaude mcp add xcodebuildmcp -- npx xcodebuildmcp@latest\n\n# Design — read Figma designs\n# (configured as plugin — check /mcp)\n\n# Project management — Jira tickets\nclaude mcp add -t sse atlassian https://mcp.atlassian.com/v1/sse\n\n# General — structured file access\nclaude mcp add filesystem -- npx @anthropic-ai/mcp-filesystem' },
-      { text: 'Verify it works: run <code>/mcp</code> and confirm your server appears', detail: 'Type <code>/mcp</code> in Claude Code. Your new server should appear in the list with a green status.' },
-      { text: 'Test it: give Claude a task that uses the integration', detail: 'Ask Claude to do something that requires the MCP server. For example: "Build my project" (XcodeBuildMCP), "Read this Figma design" (Figma), or "Show my Jira tickets" (Atlassian).' }
+      { text: 'Run <code>claude mcp list</code> — what\'s connected?', detail: 'What\'s missing from your daily workflow? Where do you still leave the terminal to copy-paste context?', code: 'claude mcp list' },
+      { text: 'Add one MCP server that closes a real gap', detail: '<strong>Figma</strong> — design-to-code, push UIs back. <a href="https://help.figma.com/hc/en-us/articles/32132100833559" target="_blank" style="color: var(--black);">docs →</a><br><strong>Atlassian</strong> — Jira tickets + Confluence docs in your session. <a href="https://www.atlassian.com/platform/remote-mcp-server" target="_blank" style="color: var(--black);">docs →</a><br><strong>Context7</strong> — real-time library docs, no more hallucinated APIs. <a href="https://github.com/upstash/context7" target="_blank" style="color: var(--black);">docs →</a><br><strong>Playwright</strong> — browser automation, self-QA your UI. <a href="https://github.com/microsoft/playwright-mcp" target="_blank" style="color: var(--black);">docs →</a><br><strong>XcodeBuildMCP</strong> — build, test, debug iOS without opening Xcode. <a href="https://github.com/getsentry/XcodeBuildMCP" target="_blank" style="color: var(--black);">docs →</a>', code: '# Pick one:\n\n# Design — Figma (configured as plugin, verify with /mcp)\n\n# Project management — Jira + Confluence\nclaude mcp add -t streamable-http atlassian https://mcp.atlassian.com/v1/mcp\n\n# Documentation — real-time library docs\nclaude mcp add context7 -- npx -y @upstash/context7-mcp@latest\n\n# Browser automation — Playwright\nclaude mcp add playwright -- npx -y @playwright/mcp@latest\n\n# iOS/macOS — build, test, debug\nclaude mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp' },
+      { text: 'Test it with a real task', detail: 'Ask Claude to do something that previously required you to leave the terminal: build your project, read a Figma design, pull a Jira ticket.' },
+      { text: 'Run <code>/context</code> — verify the server loads', detail: 'If it\'s eating too many tokens for what it provides, reconfigure. Every integration should earn its context budget.' }
     ],
-    proof: "Claude performs an action through the MCP server — builds your project, reads a design, or fetches a ticket — without you leaving the terminal."
+    proof: "Claude performs an action through an external tool — builds your project, reads a design, pulls a ticket — without you leaving the terminal."
   }
 };
 
@@ -888,14 +877,13 @@ function renderBlock(num) {
   el.innerHTML = `
     <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
       <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
-        <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 7</span>
+        <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 5</span>
         <span class="mono-sm text-grey">${block.time}</span>
       </div>
       <div style="max-width: 720px; margin-top: 32px; flex: 1;">
         <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
         <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
-        <div class="collapsible-trigger" onclick="toggleCollapsible(this)">why this matters</div>
-        <div class="collapsible-content">${block.context}</div>
+        <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 8px;">${block.context}</p>
         <div style="margin-top: 16px;">
           ${block.steps.map((step, i) => `
             <div class="step">
@@ -947,7 +935,7 @@ function navigateBlock(direction) {
   const next = current + direction;
   if (next < 1) {
     Router.navigate('hook');
-  } else if (next > 7) {
+  } else if (next > 5) {
     State.markComplete();
     Router.navigate('complete');
   } else {
@@ -964,25 +952,25 @@ function populateCompletion() {
   document.getElementById('finalScore').textContent = completed + ' / ' + total + ' actions completed';
   document.getElementById('finalTime').textContent = minutes + ' minutes';
 
-  const shareText = 'Just completed the AI Infrastructure Sprint.\n' + completed + '/' + total + ' actions in ' + minutes + ' min. My CLAUDE.md is live.\ngithub.com/sakhnenkoff/ai-infrastructure-sprint';
+  const shareText = 'Built my AI infrastructure in ' + minutes + ' minutes.\nCLAUDE.md → AGENTS.md → skills → rules → MCP.\nSame model, different output.\ngithub.com/sakhnenkoff/ai-infrastructure-sprint';
   document.getElementById('shareText').textContent = shareText;
   document.getElementById('shareBtn').onclick = function() { copyToClipboard(document.getElementById('shareBtn'), shareText); };
 
   var deliverables = [
-    { label: 'CLAUDE.md for your project', block: 2, step: 0 },
-    { label: 'One rule in .claude/rules/', block: 2, step: 1 },
+    { label: 'Context layer wired: CLAUDE.md → AGENTS.md → rules', block: 1, step: 0 },
+    { label: 'Module-level AGENTS.md added', block: 1, step: 1 },
+    { label: 'Correction rule in .claude/rules/', block: 1, step: 2 },
+    { label: 'Custom skill encoded and tested', block: 2, step: 1 },
     { label: 'Plan Mode used on a real task', block: 3, step: 1 },
-    { label: 'One task rewritten with ticket anatomy', block: 4, step: 1 },
-    { label: 'One custom skill in .claude/skills/', block: 5, step: 1 },
-    { label: 'One MCP integration connected', block: 6, step: 1 },
-    { label: 'Three maintenance rules understood', block: 7, step: -1 }
+    { label: 'MCP integration connected', block: 4, step: 1 },
+    { label: 'Multi-layer compound test passed', block: 5, step: 1 }
   ];
 
   var list = document.getElementById('deliverablesList');
   list.innerHTML = deliverables.map(function(d) {
-    var done = d.step === -1 ? true : State.isStepChecked(d.block, d.step);
+    var done = State.isStepChecked(d.block, d.step);
     return '<div style="display: flex; gap: 14px; align-items: center;">' +
-      '<div style="width: 20px; height: 20px; border: var(--border-thin); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; ' + (done ? 'background: var(--black); color: var(--white);' : '') + '">' + (done ? '✕' : '') + '</div>' +
+      '<div style="width: 20px; height: 20px; border: var(--border-thin); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; ' + (done ? 'background: var(--black); color: var(--white);' : '') + '">' + (done ? '\u2715' : '') + '</div>' +
       '<span class="mono-sm">' + d.label + '</span>' +
     '</div>';
   }).join('');
