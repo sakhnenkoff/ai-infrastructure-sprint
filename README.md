@@ -1,33 +1,42 @@
-# AI Workflow Onboarding
+# AI Infrastructure Sprint
 
-A 2-day facilitator guide for onboarding engineers into AI-native development workflows.
+Build your AI infrastructure in 30 minutes.
 
-## What's Inside
+**[Start the sprint](https://sakhnenkoff.github.io/ai-infrastructure-sprint/)**
 
-- **`index.html`** — Interactive facilitator dashboard with progress tracking, expandable how-to hints, and checklists. Open in any browser.
-- **`onboarding-design.md`** — Source spec document with the full program design.
+## What is this?
 
-## Day 1: The AI Workstation (~3-4h)
+An interactive web experience that takes you from "I use AI" to "I built infrastructure around it." You'll create context files, write skills, set up orchestration, and connect integrations — all on your real project.
 
-Setup and discovery of the AI development toolchain:
+You wouldn't ship without CI. So why are you AI-ing without infrastructure?
 
-- **Foundation** — Warp Terminal, Wispr Flow (voice-to-prompt), Claude Code basics
-- **Context** — How CLAUDE.md, AGENTS.md, rules, and skills shape AI behavior
-- **Orchestration** — Subagents, hooks, plan mode, Codex for async work
-- **Integrations** — MCP servers (Xcode, Firebase, Figma, Jira, Amplitude)
+## What you'll build
 
-## Day 2: The AI Workflow (~3-4h)
+In ~30 minutes, you'll have on your machine:
 
-Hands-on practice with AI-driven development:
+- **CLAUDE.md** — your project's context file
+- **Rules** — encoded conventions in `.claude/rules/`
+- **Plan Mode** — used on a real task from your backlog
+- **Ticket anatomy** — one task rewritten for AI execution
+- **A custom skill** — a repeatable workflow in `.claude/skills/`
+- **MCP integration** — one external tool connected
 
-- **Skill Runs** — Code review, pre-push validation, test generation
-- **End-to-End Development** — Full task from description to PR
-- **Customization** — Skill authorship, extending the system
+## How it works
 
-## Usage
+1. **Diagnose** — 3 questions to find out where you stand
+2. **Sprint** — 7 guided blocks, each with actions you do in your terminal
+3. **Complete** — see what you built, share your score
 
-Open `index.html` in your browser. Progress is saved in localStorage — you can close and reopen without losing your place.
+The page is a companion to your terminal. Open it in your browser, follow along, check boxes as you go.
 
-## Audience
+## The full course
 
-Designed for engineers who already use AI tools at a surface level (autocomplete, basic prompting) but haven't tapped into the power features: custom skills, subagents, project context files, MCP servers, and orchestration workflows.
+The sprint gets you started. For advanced workflows, team onboarding, and deep dives into each layer, see the [full AI Workflow Onboarding course](https://github.com/sakhnenkoff/ai-workflow-onboarding).
+
+## Also in this repo
+
+- **`carousel/index.html`** — LinkedIn carousel (10 slides). The visual brand reference.
+
+## Author
+
+**Matvii Sakhnenko** — iOS engineer at Schibsted/FINN. Building AI infrastructure for engineering teams.
