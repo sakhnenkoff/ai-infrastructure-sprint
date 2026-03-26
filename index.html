@@ -337,11 +337,11 @@
 
 <!-- ══════ HOOK ══════ -->
 <section class="screen" id="hook">
-  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
-    <div>
+  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 100%; max-width: 800px;">
       <span class="tag">Infrastructure Check</span>
     </div>
-    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px; text-align: center;">
       <h1 class="headline-xl" style="margin-bottom: 12px;">
         the gap between you and the engineer replacing you isn't talent.
       </h1>
@@ -360,13 +360,13 @@
 
 <!-- ══════ DIAGNOSIS ══════ -->
 <section class="screen" id="diagnose">
-  <div id="quizContainer" style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
+  <div id="quizContainer" style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
   </div>
-  <div id="scoreReveal" aria-live="polite" style="display: none; padding: 40px; min-height: 100vh; flex-direction: column;">
-    <div>
+  <div id="scoreReveal" aria-live="polite" style="display: none; padding: 40px; min-height: 100vh; flex-direction: column; align-items: center;">
+    <div style="width: 100%; max-width: 800px;">
       <span class="tag">Result</span>
     </div>
-    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px; text-align: center;">
       <p class="mono" style="font-size: clamp(64px, 12vw, 128px); font-weight: 700; line-height: 1;" id="scoreNumber"></p>
       <h2 class="headline-lg" style="margin-top: 16px;" id="scoreTier"></h2>
       <p class="mono-sm text-grey" style="margin-top: 12px;" id="scoreVerdict"></p>
@@ -383,12 +383,12 @@
 <section class="screen" id="block-3"></section>
 <section class="screen" id="block-4"></section>
 <section class="screen" id="block-5">
-  <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
+  <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick); width: 100%; max-width: 720px;">
       <span class="mono" style="font-size: 24px; font-weight: 700;">5 / 5</span>
       <span class="mono-sm text-grey">~3 min</span>
     </div>
-    <div style="max-width: 720px; margin-top: 32px; flex: 1;">
+    <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
       <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
       <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
       <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 32px;">
@@ -432,12 +432,12 @@
 
 <!-- ══════ COMPLETE ══════ -->
 <section class="screen" id="complete">
-  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
-    <div>
+  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 100%; max-width: 800px;">
       <span class="tag">Complete</span>
     </div>
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
-      <h1 class="headline-xl" style="margin-bottom: 24px;">
+      <h1 class="headline-xl" style="margin-bottom: 24px; text-align: center;">
         next time someone asks what changed since you adopted AI —<br>you have an answer.
       </h1>
       <div style="border-top: var(--border-thick); padding-top: 24px; margin-bottom: 32px;">
@@ -762,10 +762,10 @@ const Quiz = {
     const q = this.questions[this.currentQuestion];
 
     container.innerHTML = `
-      <div>
+      <div style="width: 100%; max-width: 700px;">
         <span class="mono-xs text-grey">QUESTION ${q.num} / 03</span>
       </div>
-      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 700px;">
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 700px; text-align: center;">
         <h2 class="headline-lg" style="margin-bottom: 40px;">${q.text}</h2>
         <div style="display: flex; flex-direction: column; gap: 0;">
           ${q.options.map((opt, idx) => `
@@ -875,12 +875,12 @@ function renderBlock(num) {
   const el = document.getElementById('block-' + num);
 
   el.innerHTML = `
-    <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
+    <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick); width: 100%; max-width: 720px;">
         <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 5</span>
         <span class="mono-sm text-grey">${block.time}</span>
       </div>
-      <div style="max-width: 720px; margin-top: 32px; flex: 1;">
+      <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
         <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
         <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
         <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 8px;">${block.context}</p>
