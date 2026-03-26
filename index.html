@@ -272,7 +272,27 @@
 <body>
 
 <!-- ══════ HOOK ══════ -->
-<section class="screen" id="hook"></section>
+<section class="screen" id="hook">
+  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
+    <div>
+      <span class="tag">Infrastructure Check</span>
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
+      <h1 class="headline-xl" style="margin-bottom: 12px;">
+        you wouldn't ship<br>without CI.
+      </h1>
+      <p class="headline-lg text-light text-grey" style="margin-bottom: 40px;">
+        so why are you AI-ing<br>without infrastructure?
+      </p>
+      <p class="mono-sm text-grey" style="margin-bottom: 48px;">
+        most teams gave their engineers an AI tool and said "figure it out."
+      </p>
+      <div>
+        <button class="btn" onclick="Router.navigate('diagnose')">diagnose your workflow →</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══════ DIAGNOSIS ══════ -->
 <section class="screen" id="diagnose"></section>
