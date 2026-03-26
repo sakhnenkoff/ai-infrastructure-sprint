@@ -31,7 +31,7 @@ The page is a companion to your terminal. Open it in your browser, follow along,
 
 ## The full course
 
-The sprint gets you started. For advanced workflows, team onboarding, and deep dives into each layer, see the [full AI Workflow Onboarding course](https://github.com/sakhnenkoff/ai-workflow-onboarding).
+The sprint gets you started. For advanced workflows, team onboarding, and deep dives into each layer, see the [full AI Infrastructure course](https://github.com/sakhnenkoff/ai-infrastructure-course).
 
 ## Also in this repo
 
