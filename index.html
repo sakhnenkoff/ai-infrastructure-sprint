@@ -395,12 +395,12 @@
         you just built four layers. separately, they're features. together, they're infrastructure. this is the moment they click.
       </p>
       <div class="codeblock" style="margin-bottom: 32px;">
-        <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (entry point)
-  └→ AGENTS.md (governance: policies, skill index, architecture)
-      ├→ .claude/skills/ (your encoded workflows)
-      ├→ .claude/rules/ (your encoded corrections)
-      ├→ Module-level AGENTS.md (domain overrides)
-      └→ MCP servers (external tool access)</pre>
+        <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (project context — architecture, conventions, key files)
+  └→ .claude/
+      ├→ rules/ (always-loaded corrections — mistakes Claude won't repeat)
+      ├→ docs/ (reference material Claude reads on demand)
+      ├→ skills/ (your encoded workflows — invokable by name)
+      └→ MCP servers (external tool access — Jira, Figma, builds)</pre>
       </div>
       <div style="margin-top: 16px;">
         <div class="step">
@@ -818,14 +818,14 @@ const BLOCKS = {
     title: 'the context layer.',
     time: '~8 min',
     promise: 'your AI actually knows your codebase',
-    context: "you have a CLAUDE.md. congrats. is it actually connected to anything? or is it a README the AI half-reads?",
+    context: "you have a CLAUDE.md. congrats. is it actually connected to anything? or is it a lonely file the AI half-reads and ignores?",
     steps: [
-      { text: 'Audit your <code>CLAUDE.md</code> — does it link to <code>AGENTS.md</code>?', detail: 'Does AGENTS.md index your skills, rules, and docs? If not, you have a file, not a context layer.' },
-      { text: 'Add a module-level <code>AGENTS.md</code> in one subdirectory', detail: 'Domain-specific overrides that the root file can\'t cover. Pick a module with its own conventions.' },
-      { text: 'Add one rule to <code>.claude/rules/</code> that encodes a mistake Claude keeps making', detail: 'Not a convention — a correction. Something Claude gets wrong repeatedly in your project. Encode it so it never happens again.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [Describe the mistake]\n\n[What Claude should do instead]\nEOF' },
+      { text: 'Audit your <code>CLAUDE.md</code> — does it describe your real architecture?', detail: 'Not a template. YOUR stack, YOUR conventions, YOUR key files. If it says "React app" and nothing else, it\'s doing nothing.' },
+      { text: 'Add one rule to <code>.claude/rules/</code> that encodes a mistake Claude keeps making', detail: 'Not a convention — a correction. Something Claude gets wrong repeatedly in your project. Rules are always loaded, every session, automatically.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [Describe the mistake]\n\n[What Claude should do instead]\nEOF' },
+      { text: 'Add a doc to <code>.claude/docs/</code> that Claude should reference', detail: 'Architecture decisions, API contracts, team conventions — anything you\'d otherwise paste into chat. Claude can read it on demand.', code: 'mkdir -p .claude/docs\ncat > .claude/docs/architecture.md << \'EOF\'\n# Architecture Overview\n\n[Your stack, key patterns, important decisions]\nEOF' },
       { text: 'Run <code>/context</code> — check what\'s actually being loaded', detail: 'If your context is 90% boilerplate, strip it. Every token should earn its place.' }
     ],
-    proof: "Your CLAUDE.md → AGENTS.md → rules → module AGENTS.md form a connected chain. /context confirms all layers load."
+    proof: "Claude describes your architecture correctly without you explaining anything. /context shows your rules and docs are loaded."
   },
   2: {
     title: 'the skill layer.',
@@ -952,14 +952,14 @@ function populateCompletion() {
   document.getElementById('finalScore').textContent = completed + ' / ' + total + ' actions completed';
   document.getElementById('finalTime').textContent = minutes + ' minutes';
 
-  const shareText = 'Built my AI infrastructure in ' + minutes + ' minutes.\nCLAUDE.md → AGENTS.md → skills → rules → MCP.\nSame model, different output.\ngithub.com/sakhnenkoff/ai-infrastructure-sprint';
+  const shareText = 'Built my AI infrastructure in ' + minutes + ' minutes.\nCLAUDE.md → rules → docs → skills → MCP.\nSame model, different output.\ngithub.com/sakhnenkoff/ai-infrastructure-sprint';
   document.getElementById('shareText').textContent = shareText;
   document.getElementById('shareBtn').onclick = function() { copyToClipboard(document.getElementById('shareBtn'), shareText); };
 
   var deliverables = [
-    { label: 'Context layer wired: CLAUDE.md → AGENTS.md → rules', block: 1, step: 0 },
-    { label: 'Module-level AGENTS.md added', block: 1, step: 1 },
-    { label: 'Correction rule in .claude/rules/', block: 1, step: 2 },
+    { label: 'CLAUDE.md describes your real architecture', block: 1, step: 0 },
+    { label: 'Correction rule in .claude/rules/', block: 1, step: 1 },
+    { label: 'Reference doc in .claude/docs/', block: 1, step: 2 },
     { label: 'Custom skill encoded and tested', block: 2, step: 1 },
     { label: 'Plan Mode used on a real task', block: 3, step: 1 },
     { label: 'MCP integration connected', block: 4, step: 1 },
