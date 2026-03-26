@@ -295,7 +295,23 @@
 </section>
 
 <!-- ══════ DIAGNOSIS ══════ -->
-<section class="screen" id="diagnose"></section>
+<section class="screen" id="diagnose">
+  <div id="quizContainer" style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
+  </div>
+  <div id="scoreReveal" aria-live="polite" style="display: none; padding: 40px; min-height: 100vh; flex-direction: column;">
+    <div>
+      <span class="tag">Result</span>
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
+      <p class="mono" style="font-size: clamp(64px, 12vw, 128px); font-weight: 700; line-height: 1;" id="scoreNumber"></p>
+      <h2 class="headline-lg" style="margin-top: 16px;" id="scoreTier"></h2>
+      <p class="mono-sm text-grey" style="margin-top: 12px;" id="scoreVerdict"></p>
+      <div style="margin-top: 48px;">
+        <button class="btn" onclick="Router.navigate('block-1')">start the sprint →</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══════ BLOCKS ══════ -->
 <section class="screen" id="block-1"></section>
@@ -453,6 +469,9 @@ const Router = {
       document.getElementById('resumeBanner').classList.remove('visible');
     }
 
+    // Init diagnosis when navigating to it
+    if (target === 'diagnose') Quiz.init();
+
     // Update progress bar visibility
     const progressBar = document.getElementById('progressBar');
     if (progressBar) {
@@ -517,6 +536,116 @@ function copyToClipboard(btn, text) {
 function toggleCollapsible(el) {
   el.classList.toggle('open');
 }
+
+// ── DIAGNOSIS ──
+const Quiz = {
+  questions: [
+    {
+      num: '01',
+      text: 'what does your CLAUDE.md look like?',
+      options: [
+        { letter: 'A', text: "what's a CLAUDE.md?", points: 0 },
+        { letter: 'B', text: "I've seen one but haven't written my own", points: 1 },
+        { letter: 'C', text: "I have one but it's basic", points: 2 },
+        { letter: 'D', text: "it describes our architecture and links to docs", points: 3 }
+      ]
+    },
+    {
+      num: '02',
+      text: 'how do you use AI coding tools?',
+      options: [
+        { letter: 'A', text: 'autocomplete and chat', points: 0 },
+        { letter: 'B', text: 'I prompt for code generation and reviews', points: 1 },
+        { letter: 'C', text: 'I use skills and Plan Mode', points: 2 },
+        { letter: 'D', text: 'custom skills, hooks, subagent workflows', points: 3 }
+      ]
+    },
+    {
+      num: '03',
+      text: "what's connected to your AI workflow?",
+      options: [
+        { letter: 'A', text: 'nothing — just the AI and my editor', points: 0 },
+        { letter: 'B', text: 'a plugin or two', points: 1 },
+        { letter: 'C', text: 'build tools or design tools via MCP', points: 2 },
+        { letter: 'D', text: 'multiple MCP servers, integrated daily', points: 3 }
+      ]
+    }
+  ],
+  currentQuestion: 0,
+  answers: [],
+
+  init() {
+    if (State.hasDiagnosis()) {
+      Router.navigate('block-1');
+      return;
+    }
+    this.currentQuestion = 0;
+    this.answers = [];
+    this.render();
+  },
+
+  render() {
+    const container = document.getElementById('quizContainer');
+    const q = this.questions[this.currentQuestion];
+
+    container.innerHTML = `
+      <div>
+        <span class="mono-xs text-grey">QUESTION ${q.num} / 03</span>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 700px;">
+        <h2 class="headline-lg" style="margin-bottom: 40px;">${q.text}</h2>
+        <div style="display: flex; flex-direction: column; gap: 0;">
+          ${q.options.map((opt, idx) => `
+            <button class="quiz-option" onclick="Quiz.answer(${opt.points})" style="
+              display: flex; align-items: center; gap: 20px;
+              padding: 20px 24px;
+              border: 2px solid var(--black); ${idx < q.options.length - 1 ? 'border-bottom: none;' : ''}
+              background: var(--white); color: var(--black);
+              font-family: var(--font-mono); font-size: 14px;
+              text-align: left; cursor: pointer; width: 100%;
+            " onmouseover="this.style.background='var(--black)';this.style.color='var(--white)'"
+               onmouseout="this.style.background='var(--white)';this.style.color='var(--black)'">
+              <span style="font-weight: 700; min-width: 24px;">${opt.letter}</span>
+              <span>${opt.text}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    container.style.display = 'flex';
+    document.getElementById('scoreReveal').style.display = 'none';
+  },
+
+  answer(points) {
+    this.answers.push(points);
+    this.currentQuestion++;
+    if (this.currentQuestion < this.questions.length) {
+      this.render();
+    } else {
+      this.showScore();
+    }
+  },
+
+  showScore() {
+    const result = State.saveDiagnosis(this.answers);
+    document.getElementById('quizContainer').style.display = 'none';
+    const reveal = document.getElementById('scoreReveal');
+    reveal.style.display = 'flex';
+
+    document.getElementById('scoreNumber').textContent = result.score + ' / 9';
+
+    const tiers = {
+      'surface-user': { label: 'surface user.', verdict: "you use AI. you haven't built infrastructure around it." },
+      'getting-there': { label: 'getting there.', verdict: 'some pieces exist. gaps remain.' },
+      'infrastructure-builder': { label: 'infrastructure builder.', verdict: "you're ahead. this will sharpen your edge." }
+    };
+
+    const tier = tiers[result.tier];
+    document.getElementById('scoreTier').textContent = tier.label;
+    document.getElementById('scoreVerdict').textContent = tier.verdict;
+  }
+};
 
 // ── INIT ──
 Router.init();
