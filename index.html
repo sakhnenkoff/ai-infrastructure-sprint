@@ -217,25 +217,6 @@
     line-height: 1.6;
   }
 
-  /* ── PROGRESS BAR ── */
-  .progress-bar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 40px;
-    border-top: var(--border-thin);
-    background: var(--white);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-  }
-  .progress-segments { display: flex; gap: 4px; flex: 1; }
-  .progress-seg { flex: 1; height: 6px; background: var(--grey-light); }
-  .progress-seg.filled { background: var(--black); }
-  .progress-seg.current { background: var(--grey); }
-  .progress-nav { display: flex; gap: 8px; }
 
   /* ── COLLAPSIBLE ── */
   .collapsible-trigger {
@@ -383,10 +364,19 @@
 <section class="screen" id="block-3"></section>
 <section class="screen" id="block-4"></section>
 <section class="screen" id="block-5">
-  <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick); width: 100%; max-width: 720px;">
-      <span class="mono" style="font-size: 24px; font-weight: 700;">5 / 5</span>
-      <span class="mono-sm text-grey">~3 min</span>
+  <div style="padding: 40px 40px 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
+    <div style="width: 100%; max-width: 720px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px;">
+        <span class="mono" style="font-size: 24px; font-weight: 700;">5 / 5</span>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="mono-sm text-grey" style="margin-right: 8px;">~3 min</span>
+          <button class="btn btn-ghost" onclick="navigateBlock(-1)" style="padding: 8px 14px; font-size: 12px;">←</button>
+          <button class="btn" onclick="State.markComplete(); navigateBlock(1);" style="padding: 8px 14px; font-size: 12px;">finish →</button>
+        </div>
+      </div>
+      <div style="width: 100%; height: 3px; background: var(--grey-light);">
+        <div style="width: 100%; height: 100%; background: var(--black);"></div>
+      </div>
     </div>
     <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
       <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
@@ -478,20 +468,6 @@
   <span class="dismiss" id="resumeDismiss">✕</span>
 </div>
 
-<!-- ══════ PROGRESS BAR ══════ -->
-<div class="progress-bar" id="progressBar" style="display: none;">
-  <div class="progress-segments">
-    <div class="progress-seg"></div>
-    <div class="progress-seg"></div>
-    <div class="progress-seg"></div>
-    <div class="progress-seg"></div>
-    <div class="progress-seg"></div>
-  </div>
-  <div class="progress-nav">
-    <button class="btn btn-ghost" onclick="navigateBlock(-1)" style="padding: 10px 16px; font-size: 12px;">← back</button>
-    <button class="btn" id="nextBtn" onclick="navigateBlock(1)" style="padding: 10px 16px; font-size: 12px;">next →</button>
-  </div>
-</div>
 
 <script>
 // ── STATE MANAGER ──
@@ -634,42 +610,12 @@ const Router = {
     if (target === 'diagnose') Quiz.init();
     if (target === 'complete') populateCompletion();
 
-    // Update progress bar visibility
-    const progressBar = document.getElementById('progressBar');
-    if (progressBar) {
-      const isBlock = target.startsWith('block-');
-      progressBar.style.display = isBlock ? 'flex' : 'none';
-      if (isBlock) {
-        this.updateProgress(parseInt(target.split('-')[1]));
-        const blockNum = parseInt(target.split('-')[1]);
-        const nextBtn = document.getElementById('nextBtn');
-        if (nextBtn) {
-          nextBtn.textContent = blockNum === 5 ? 'finish →' : 'next →';
-          nextBtn.onclick = () => {
-            if (blockNum === 5) State.markComplete();
-            navigateBlock(1);
-          };
-        }
-      }
-    }
   },
 
   navigate(hash) {
     location.hash = hash;
   },
 
-  updateProgress(currentBlock) {
-    const segments = document.querySelectorAll('.progress-seg');
-    segments.forEach((seg, i) => {
-      const blockNum = i + 1;
-      seg.classList.remove('filled', 'current');
-      if (State.isBlockCompleted(blockNum)) {
-        seg.classList.add('filled');
-      } else if (blockNum === currentBlock) {
-        seg.classList.add('current');
-      }
-    });
-  }
 };
 
 // ── RESUME BANNER ──
@@ -875,10 +821,19 @@ function renderBlock(num) {
   const el = document.getElementById('block-' + num);
 
   el.innerHTML = `
-    <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick); width: 100%; max-width: 720px;">
-        <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 5</span>
-        <span class="mono-sm text-grey">${block.time}</span>
+    <div style="padding: 40px 40px 40px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--off-white);">
+      <div style="width: 100%; max-width: 720px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px;">
+          <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 5</span>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="mono-sm text-grey" style="margin-right: 8px;">${block.time}</span>
+            <button class="btn btn-ghost" onclick="navigateBlock(-1)" style="padding: 8px 14px; font-size: 12px;">←</button>
+            <button class="btn" onclick="navigateBlock(1)" style="padding: 8px 14px; font-size: 12px;">${num === 4 ? 'finish →' : 'next →'}</button>
+          </div>
+        </div>
+        <div style="width: 100%; height: 3px; background: var(--grey-light);">
+          <div style="width: ${num * 20}%; height: 100%; background: var(--black); transition: width 0.3s;"></div>
+        </div>
       </div>
       <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
         <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
@@ -921,7 +876,6 @@ function handleStepCheck(blockNum, stepIndex, el) {
   el.classList.toggle('checked', checked);
   el.textContent = checked ? '\u2715' : '';
   el.setAttribute('aria-checked', checked);
-  Router.updateProgress(blockNum);
 }
 
 // Render all blocks on load
