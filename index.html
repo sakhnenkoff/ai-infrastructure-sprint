@@ -8,7 +8,7 @@
 <meta property="og:title" content="AI Infrastructure Sprint">
 <meta property="og:description" content="You wouldn't ship without CI. So why are you AI-ing without infrastructure? Build yours in 30 minutes.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sakhnenkoff.github.io/ai-workflow-onboarding-generic/">
+<meta property="og:url" content="https://sakhnenkoff.github.io/ai-infrastructure-sprint/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Infrastructure Sprint">
 <meta name="twitter:description" content="You wouldn't ship without CI. So why are you AI-ing without infrastructure? Build yours in 30 minutes.">
@@ -445,7 +445,7 @@
       <div style="margin-top: 32px; display: flex; gap: 16px; align-items: center;">
         <button class="btn btn-ghost" onclick="State.clear(); location.hash='hook'; location.reload();">start over</button>
         <span class="text-grey">·</span>
-        <a href="https://github.com/sakhnenkoff/ai-workflow-onboarding-generic" target="_blank" class="mono-sm" style="color: var(--black);">view on github →</a>
+        <a href="https://github.com/sakhnenkoff/ai-infrastructure-sprint" target="_blank" class="mono-sm" style="color: var(--black);">view on github →</a>
       </div>
     </div>
   </div>
@@ -964,7 +964,7 @@ function populateCompletion() {
   document.getElementById('finalScore').textContent = completed + ' / ' + total + ' actions completed';
   document.getElementById('finalTime').textContent = minutes + ' minutes';
 
-  const shareText = 'Just completed the AI Infrastructure Sprint.\n' + completed + '/' + total + ' actions in ' + minutes + ' min. My CLAUDE.md is live.\ngithub.com/sakhnenkoff/ai-workflow-onboarding';
+  const shareText = 'Just completed the AI Infrastructure Sprint.\n' + completed + '/' + total + ' actions in ' + minutes + ' min. My CLAUDE.md is live.\ngithub.com/sakhnenkoff/ai-infrastructure-sprint';
   document.getElementById('shareText').textContent = shareText;
   document.getElementById('shareBtn').onclick = function() { copyToClipboard(document.getElementById('shareBtn'), shareText); };
 
