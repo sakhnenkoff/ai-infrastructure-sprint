@@ -262,10 +262,42 @@
     font-size: 16px;
   }
 
+  /* ── FOCUS ── */
+  .btn:focus-visible,
+  .step-check:focus-visible,
+  .quiz-option:focus-visible {
+    outline: 3px solid var(--black);
+    outline-offset: 2px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
   /* ── MOBILE ── */
   @media (max-width: 640px) {
     .headline-xl { letter-spacing: -1px; }
-    .progress-bar { padding: 16px 20px; }
+    .progress-bar {
+      padding: 16px 20px;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .progress-nav {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .codeblock {
+      font-size: 11px;
+      padding: 16px;
+    }
+    .step { gap: 10px; }
   }
 </style>
 </head>
