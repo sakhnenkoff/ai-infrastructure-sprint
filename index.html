@@ -320,7 +320,34 @@
 <section class="screen" id="block-4"></section>
 <section class="screen" id="block-5"></section>
 <section class="screen" id="block-6"></section>
-<section class="screen" id="block-7"></section>
+<section class="screen" id="block-7">
+  <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
+      <span class="mono" style="font-size: 24px; font-weight: 700;">7 / 7</span>
+      <span class="mono-sm text-grey">~1 min</span>
+    </div>
+    <div style="max-width: 720px; margin-top: 32px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <h2 class="headline-lg" style="margin-bottom: 48px;">what's next.</h2>
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div style="border-left: var(--border-thick); padding-left: 24px;">
+          <p class="headline-md">wrong answer twice → add a rule.</p>
+          <p class="mono-sm text-grey" style="margin-top: 8px;">don't correct the AI manually. encode the correction.</p>
+        </div>
+        <div style="border-left: var(--border-thick); padding-left: 24px;">
+          <p class="headline-md">repeated workflow → create a skill.</p>
+          <p class="mono-sm text-grey" style="margin-top: 8px;">if you explained it once, you'll explain it again. automate it.</p>
+        </div>
+        <div style="border-left: var(--border-thick); padding-left: 24px;">
+          <p class="headline-md">context gets stale → update CLAUDE.md.</p>
+          <p class="mono-sm text-grey" style="margin-top: 8px;">your codebase evolves. your context should too.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 48px;">
+      <button class="btn" onclick="State.markComplete(); Router.navigate('complete')">finish →</button>
+    </div>
+  </div>
+</section>
 
 <!-- ══════ COMPLETE ══════ -->
 <section class="screen" id="complete"></section>
@@ -330,6 +357,23 @@
   <span id="resumeText"></span>
   <button id="resumeBtn">resume →</button>
   <span class="dismiss" id="resumeDismiss">✕</span>
+</div>
+
+<!-- ══════ PROGRESS BAR ══════ -->
+<div class="progress-bar" id="progressBar" style="display: none;">
+  <div class="progress-segments">
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+    <div class="progress-seg"></div>
+  </div>
+  <div class="progress-nav">
+    <button class="btn btn-ghost" onclick="navigateBlock(-1)" style="padding: 10px 16px; font-size: 12px;">← back</button>
+    <button class="btn" id="nextBtn" onclick="navigateBlock(1)" style="padding: 10px 16px; font-size: 12px;">next →</button>
+  </div>
 </div>
 
 <script>
@@ -477,7 +521,18 @@ const Router = {
     if (progressBar) {
       const isBlock = target.startsWith('block-');
       progressBar.style.display = isBlock ? 'flex' : 'none';
-      if (isBlock) this.updateProgress(parseInt(target.split('-')[1]));
+      if (isBlock) {
+        this.updateProgress(parseInt(target.split('-')[1]));
+        const blockNum = parseInt(target.split('-')[1]);
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn) {
+          nextBtn.textContent = blockNum === 7 ? 'finish →' : 'next →';
+          nextBtn.onclick = () => {
+            if (blockNum === 7) State.markComplete();
+            navigateBlock(1);
+          };
+        }
+      }
     }
   },
 
@@ -646,6 +701,164 @@ const Quiz = {
     document.getElementById('scoreVerdict').textContent = tier.verdict;
   }
 };
+
+// ── BLOCK DATA ──
+const BLOCKS = {
+  1: {
+    title: 'the foundation.',
+    time: '~5 min',
+    promise: "you'll have Claude Code running with power-user shortcuts",
+    context: "Claude Code is a terminal-native AI assistant. It reads your project, follows your rules, and executes multi-step tasks. But most engineers use 10% of it. These shortcuts separate beginners from power users.",
+    steps: [
+      { text: 'Install Claude Code (or verify it\'s installed)', code: 'npm install -g @anthropic-ai/claude-code' },
+      { text: 'Authenticate with your Anthropic account', code: 'claude auth' },
+      { text: 'Try the <code>!</code> prefix — run shell commands from chat', detail: 'Type <code>!git status</code> inside Claude Code. It runs the command and shows the output.' },
+      { text: 'Try <strong>Esc Esc</strong> — quick re-edit your last prompt', detail: 'After sending a message, double-tap Escape to edit and re-send it.' },
+      { text: 'Try <strong>Shift+Tab</strong> — accept a suggestion', detail: 'When Claude suggests a file edit, Shift+Tab accepts it instantly.' },
+      { text: 'Run <code>/context</code> to see your token breakdown', detail: 'Shows how much of your context window is used by files, instructions, and conversation.' }
+    ],
+    proof: "You should see your context token breakdown — files, instructions, conversation."
+  },
+  2: {
+    title: 'the context layer.',
+    time: '~8 min',
+    promise: 'your AI knows your codebase',
+    context: "Without context, every AI conversation starts from zero. CLAUDE.md tells the AI what your project is. Rules encode your conventions. Together, they make the AI stop being generic and start knowing your codebase.",
+    steps: [
+      { text: 'Create <code>CLAUDE.md</code> in your project root', code: '# Project Context\n\n## Architecture\n[Describe your stack: language, framework, key libraries]\n\n## Conventions\n[List 3-5 patterns your team follows]\n\n## Key Files\n[Point to the most important files/directories]' },
+      { text: 'Add one rule to <code>.claude/rules/</code>', code: 'mkdir -p .claude/rules\ncat > .claude/rules/conventions.md << \'EOF\'\n# Team Conventions\n\n- [A convention your team always follows]\n- [Another convention]\nEOF' },
+      { text: 'Ask Claude about your architecture — it should answer correctly', detail: 'Start a new Claude Code session in your project. Ask: "Describe the architecture of this project." It should reference what you wrote in CLAUDE.md.' }
+    ],
+    proof: "Claude references your architecture without you explaining it."
+  },
+  3: {
+    title: 'the orchestration layer.',
+    time: '~6 min',
+    promise: "you'll plan before you execute",
+    context: "Most engineers go straight from prompt to code. Plan Mode makes Claude think first — it generates a structured plan you can review and edit before any code is written. Subagents let you run multiple streams of work in parallel.",
+    steps: [
+      { text: 'Enter Plan Mode', code: '/plan', detail: 'Type <code>/plan</code> in Claude Code. The prompt changes to indicate you\'re in planning mode.' },
+      { text: 'Give Claude a real task from your backlog', detail: 'Pick something you actually need to do. Not a toy example — a real task. Describe it in 2-3 sentences.' },
+      { text: 'Review the plan it generates — edit it before executing', detail: 'Claude will produce a step-by-step plan. Read it. Edit steps that don\'t match your approach. Then approve to execute.' },
+      { text: 'Understand: subagents work in parallel on independent subtasks', detail: 'When Claude identifies independent pieces of work, it can dispatch subagents to handle them simultaneously. One engineer, multiple streams of work.' }
+    ],
+    proof: "You have a plan document Claude generated before touching code."
+  },
+  4: {
+    title: 'designing work for AI.',
+    time: '~5 min',
+    promise: "you'll write tasks agents can execute",
+    context: "Vague tasks produce vague results. The ticket anatomy template structures tasks so AI agents have everything they need: what to build, why it matters, which files to touch, and explicit instructions.",
+    steps: [
+      { text: 'Pick one task from your real backlog', detail: 'Choose something small — a bug fix, a refactor, a small feature. Not the biggest thing on your plate.' },
+      { text: 'Rewrite it using the ticket anatomy template', code: '## What\n[Concrete deliverable — what exists after this is done]\n\n## Why\n[Business context — why this matters]\n\n## Context\n[Relevant files, constraints, dependencies]\n\n## Agent Instructions\n[Explicit steps the AI should follow]' },
+      { text: 'Feed the rewritten task to Claude and compare output quality', detail: 'Paste your rewritten task into Claude Code. Compare the output quality to what you\'d get from a vague one-liner like "fix the login bug."' }
+    ],
+    proof: "The rewritten task produces noticeably better output than a vague prompt."
+  },
+  5: {
+    title: 'your first skill.',
+    time: '~5 min',
+    promise: "you'll have a custom skill your whole team can use",
+    context: "Skills are repeatable workflows encoded as markdown. Instead of explaining a process every time, you write it once as a skill. Your whole team can invoke it. Think of it as a runbook that the AI executes.",
+    steps: [
+      { text: 'Create the <code>.claude/skills/</code> directory', code: 'mkdir -p .claude/skills' },
+      { text: 'Create a skill file', code: 'cat > .claude/skills/code-review.md << \'EOF\'\n---\nname: code-review\ndescription: Review code for quality, security, and conventions\n---\n\n# Code Review\n\n1. Check for security issues (hardcoded secrets, injection vectors)\n2. Verify error handling is present\n3. Check naming conventions match project style\n4. Flag any TODO/FIXME comments\n5. Suggest specific improvements with code examples\nEOF' },
+      { text: 'Test the skill by invoking it', detail: 'In Claude Code, type <code>/code-review</code>. Claude should follow the workflow you defined.' },
+      { text: 'Customize it — change the steps to match your team\'s actual review process', detail: 'Edit the skill file. Replace the generic steps with what your team actually checks during code review.' }
+    ],
+    proof: "Running your skill triggers the custom workflow."
+  },
+  6: {
+    title: 'the integrations layer.',
+    time: '~5 min',
+    promise: 'your AI reaches the tools you already use',
+    context: "MCP (Model Context Protocol) servers connect Claude to external systems — build tools, design tools, project management, analytics. The AI stops being isolated and starts operating inside your actual workflow.",
+    steps: [
+      { text: 'Check what MCP servers are already connected', code: 'claude mcp list' },
+      { text: 'Add one MCP server relevant to your stack', code: '# Pick one:\n\n# Web/Frontend — browser automation\nclaude mcp add playwright -- npx @anthropic-ai/mcp-playwright\n\n# iOS/Mobile — build, test, run\nclaude mcp add xcodebuildmcp -- npx xcodebuildmcp@latest\n\n# Design — read Figma designs\n# (configured as plugin — check /mcp)\n\n# Project management — Jira tickets\nclaude mcp add -t sse atlassian https://mcp.atlassian.com/v1/sse\n\n# General — structured file access\nclaude mcp add filesystem -- npx @anthropic-ai/mcp-filesystem' },
+      { text: 'Verify it works: run <code>/mcp</code> and confirm your server appears', detail: 'Type <code>/mcp</code> in Claude Code. Your new server should appear in the list with a green status.' },
+      { text: 'Test it: give Claude a task that uses the integration', detail: 'Ask Claude to do something that requires the MCP server. For example: "Build my project" (XcodeBuildMCP), "Read this Figma design" (Figma), or "Show my Jira tickets" (Atlassian).' }
+    ],
+    proof: "Claude performs an action through the MCP server — builds your project, reads a design, or fetches a ticket — without you leaving the terminal."
+  }
+};
+
+// ── BLOCK RENDERING ──
+function renderBlock(num) {
+  const block = BLOCKS[num];
+  if (!block) return;
+  const el = document.getElementById('block-' + num);
+
+  el.innerHTML = `
+    <div style="padding: 40px 40px 100px; min-height: 100vh; display: flex; flex-direction: column; background: var(--off-white);">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: var(--border-thick);">
+        <span class="mono" style="font-size: 24px; font-weight: 700;">${num} / 7</span>
+        <span class="mono-sm text-grey">${block.time}</span>
+      </div>
+      <div style="max-width: 720px; margin-top: 32px; flex: 1;">
+        <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
+        <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
+        <div class="collapsible-trigger" onclick="toggleCollapsible(this)">why this matters</div>
+        <div class="collapsible-content">${block.context}</div>
+        <div style="margin-top: 16px;">
+          ${block.steps.map((step, i) => `
+            <div class="step">
+              <div class="step-check ${State.isStepChecked(num, i) ? 'checked' : ''}"
+                   onclick="handleStepCheck(${num}, ${i}, this)"
+                   role="checkbox"
+                   aria-checked="${State.isStepChecked(num, i)}"
+                   tabindex="0"
+                   onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(${num}, ${i}, this)}"
+              >${State.isStepChecked(num, i) ? '\u2715' : ''}</div>
+              <div class="step-text">
+                ${step.text}
+                ${step.detail ? '<br><span style="color: var(--grey); font-size: 12px;">' + step.detail + '</span>' : ''}
+              </div>
+            </div>
+            ${step.code ? `
+              <div class="codeblock" style="margin: 8px 0 16px 36px;">
+                <button class="codeblock-copy" onclick="copyToClipboard(this, decodeURIComponent('${encodeURIComponent(step.code)}'))">copy</button>
+                <pre style="margin: 0; white-space: pre-wrap; word-break: break-all;">${step.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+              </div>
+            ` : ''}
+          `).join('')}
+        </div>
+        <div class="proof">
+          <div class="proof-label">you'll know it worked when</div>
+          <p class="proof-text">${block.proof}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function handleStepCheck(blockNum, stepIndex, el) {
+  const checked = State.toggleStep(blockNum, stepIndex);
+  el.classList.toggle('checked', checked);
+  el.textContent = checked ? '\u2715' : '';
+  el.setAttribute('aria-checked', checked);
+  Router.updateProgress(blockNum);
+}
+
+// Render all blocks on load
+Object.keys(BLOCKS).forEach(num => renderBlock(parseInt(num)));
+
+// ── BLOCK NAVIGATION ──
+function navigateBlock(direction) {
+  const hash = location.hash.slice(1);
+  if (!hash.startsWith('block-')) return;
+  const current = parseInt(hash.split('-')[1]);
+  const next = current + direction;
+  if (next < 1) {
+    Router.navigate('hook');
+  } else if (next > 7) {
+    State.markComplete();
+    Router.navigate('complete');
+  } else {
+    Router.navigate('block-' + next);
+  }
+}
 
 // ── INIT ──
 Router.init();
