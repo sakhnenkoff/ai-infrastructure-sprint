@@ -350,7 +350,35 @@
 </section>
 
 <!-- ══════ COMPLETE ══════ -->
-<section class="screen" id="complete"></section>
+<section class="screen" id="complete">
+  <div style="padding: 40px; min-height: 100vh; display: flex; flex-direction: column;">
+    <div>
+      <span class="tag">Complete</span>
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px;">
+      <h1 class="headline-xl" style="margin-bottom: 24px;">
+        you just built your<br>AI infrastructure.
+      </h1>
+      <div style="border-top: var(--border-thick); padding-top: 24px; margin-bottom: 32px;">
+        <p class="mono" style="font-size: 36px; font-weight: 700;" id="finalScore"></p>
+        <p class="mono-sm text-grey" style="margin-top: 4px;" id="finalTime"></p>
+      </div>
+      <div style="border: var(--border-thin); padding: 24px; margin-bottom: 32px; position: relative;">
+        <button class="codeblock-copy" id="shareBtn" style="top: 16px; right: 16px;">copy</button>
+        <pre class="mono-sm" id="shareText" style="white-space: pre-wrap; line-height: 1.7;"></pre>
+      </div>
+      <div style="border-top: var(--border-thick); padding-top: 20px;">
+        <p class="mono-xs text-grey" style="letter-spacing: 1.5px; margin-bottom: 16px;">WHAT YOU BUILT</p>
+        <div id="deliverablesList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+      </div>
+      <div style="margin-top: 48px; display: flex; gap: 16px; align-items: center;">
+        <button class="btn btn-ghost" onclick="State.clear(); location.hash='hook'; location.reload();">start over</button>
+        <span class="text-grey">·</span>
+        <a href="https://github.com/sakhnenkoff/ai-workflow-onboarding" target="_blank" class="mono-sm" style="color: var(--black);">view on github →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══════ RESUME BANNER ══════ -->
 <div class="resume-banner" id="resumeBanner">
@@ -515,6 +543,7 @@ const Router = {
 
     // Init diagnosis when navigating to it
     if (target === 'diagnose') Quiz.init();
+    if (target === 'complete') populateCompletion();
 
     // Update progress bar visibility
     const progressBar = document.getElementById('progressBar');
@@ -858,6 +887,39 @@ function navigateBlock(direction) {
   } else {
     Router.navigate('block-' + next);
   }
+}
+
+// ── COMPLETION ──
+function populateCompletion() {
+  const completed = State.getCompletedActions();
+  const total = State.getTotalActions();
+  const minutes = State.getElapsedMinutes();
+
+  document.getElementById('finalScore').textContent = completed + ' / ' + total + ' actions completed';
+  document.getElementById('finalTime').textContent = minutes + ' minutes';
+
+  const shareText = 'Just completed the AI Infrastructure Sprint.\n' + completed + '/' + total + ' actions in ' + minutes + ' min. My CLAUDE.md is live.\ngithub.com/sakhnenkoff/ai-workflow-onboarding';
+  document.getElementById('shareText').textContent = shareText;
+  document.getElementById('shareBtn').onclick = function() { copyToClipboard(document.getElementById('shareBtn'), shareText); };
+
+  var deliverables = [
+    { label: 'CLAUDE.md for your project', block: 2, step: 0 },
+    { label: 'One rule in .claude/rules/', block: 2, step: 1 },
+    { label: 'Plan Mode used on a real task', block: 3, step: 1 },
+    { label: 'One task rewritten with ticket anatomy', block: 4, step: 1 },
+    { label: 'One custom skill in .claude/skills/', block: 5, step: 1 },
+    { label: 'One MCP integration connected', block: 6, step: 1 },
+    { label: 'Three maintenance rules understood', block: 7, step: -1 }
+  ];
+
+  var list = document.getElementById('deliverablesList');
+  list.innerHTML = deliverables.map(function(d) {
+    var done = d.step === -1 ? true : State.isStepChecked(d.block, d.step);
+    return '<div style="display: flex; gap: 14px; align-items: center;">' +
+      '<div style="width: 20px; height: 20px; border: var(--border-thin); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; ' + (done ? 'background: var(--black); color: var(--white);' : '') + '">' + (done ? '✕' : '') + '</div>' +
+      '<span class="mono-sm">' + d.label + '</span>' +
+    '</div>';
+  }).join('');
 }
 
 // ── INIT ──
