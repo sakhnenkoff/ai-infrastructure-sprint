@@ -911,7 +911,7 @@ const Router = {
     // Show/hide architecture diagram sidebar
     const archSidebar = document.getElementById('archSidebar');
     if (archSidebar) {
-      const showDiagram = target.startsWith('block-') || target === 'complete';
+      const showDiagram = target.startsWith('block-');
       archSidebar.classList.toggle('visible', showDiagram);
       document.body.classList.toggle('has-sidebar', showDiagram);
       archSidebar.classList.remove('expanded');
@@ -1231,7 +1231,7 @@ function updateDiagram() {
 
   sidebar.classList.toggle('reveal-mode', currentBlock === 5 && !State.isBlockCompleted(5));
 
-  document.querySelectorAll('.arch-layer').forEach(layer => {
+  sidebar.querySelectorAll('.arch-layer').forEach(layer => {
     const layerBlock = LAYER_BLOCK_MAP[layer.dataset.layer];
     const dot = layer.querySelector('.arch-dot');
     layer.classList.remove('layer-locked', 'layer-active', 'layer-completed');
@@ -1249,7 +1249,7 @@ function updateDiagram() {
   });
 
   // Update mobile dots
-  document.querySelectorAll('.arch-dot-mobile').forEach(dot => {
+  sidebar.querySelectorAll('.arch-dot-mobile').forEach(dot => {
     const layerBlock = LAYER_BLOCK_MAP[dot.dataset.dot];
     dot.classList.remove('filled', 'active');
     if (isReveal || State.isBlockCompleted(layerBlock)) {
@@ -1260,7 +1260,7 @@ function updateDiagram() {
   });
 
   // Brighten static tree connectors when adjacent layers are completed
-  document.querySelectorAll('.arch-static').forEach(el => {
+  sidebar.querySelectorAll('.arch-static').forEach(el => {
     const hasCompletedSibling = el.previousElementSibling?.classList.contains('layer-completed') ||
                                  el.nextElementSibling?.classList.contains('layer-completed');
     el.style.color = hasCompletedSibling || isReveal ? 'var(--black)' : '';
