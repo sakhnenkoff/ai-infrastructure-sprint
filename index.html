@@ -312,9 +312,313 @@
     }
     .step { gap: 10px; }
   }
+
+  /* ── ARCHITECTURE DIAGRAM SIDEBAR ── */
+  .arch-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 240px;
+    height: 100vh;
+    padding: 32px 20px;
+    border-left: var(--border-thick);
+    background: var(--white);
+    z-index: 5;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .arch-sidebar.visible {
+    display: flex;
+  }
+
+  .arch-sidebar-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .arch-tree {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre;
+    user-select: none;
+  }
+
+  .arch-static {
+    color: var(--grey);
+    transition: color 0.4s ease;
+  }
+
+  .arch-layer {
+    transition: opacity 0.5s ease, color 0.5s ease;
+  }
+
+  .arch-dot {
+    display: inline;
+    font-size: 10px;
+  }
+
+  .arch-layer-separated {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--grey-light);
+  }
+
+  .arch-block-indicator {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  /* ── LAYER STATES ── */
+  .arch-layer.layer-locked {
+    opacity: 0.3;
+    color: var(--grey);
+  }
+
+  .arch-layer.layer-active {
+    opacity: 1;
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  .arch-layer.layer-completed {
+    opacity: 1;
+    color: var(--black);
+  }
+
+  @keyframes layerPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── REVEAL ANIMATION (Block 5) ── */
+  .arch-sidebar.reveal-mode .arch-layer {
+    animation: revealLayer 0.6s ease forwards;
+    animation-delay: calc(var(--delay) * 0.15s);
+  }
+
+  .arch-sidebar.reveal-mode .arch-static {
+    color: var(--black);
+    transition: color 0.4s ease 0.1s;
+  }
+
+  @keyframes revealLayer {
+    0% { opacity: 0.15; color: var(--grey); }
+    60% { opacity: 1; color: var(--black); transform: translateX(4px); }
+    100% { opacity: 1; color: var(--black); transform: translateX(0); }
+  }
+
+  /* ── BODY ADJUSTMENT FOR SIDEBAR ── */
+  #stickyNav {
+    right: 24px;
+  }
+
+  @media (min-width: 769px) {
+    body.has-sidebar {
+      margin-right: 240px;
+    }
+    body.has-sidebar #stickyNav {
+      right: 264px;
+    }
+  }
+
+  /* ── TERMINAL COMPANION CUES ── */
+  .step-prompt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey);
+    margin-right: 4px;
+    user-select: none;
+  }
+
+  /* ── NARRATIVE / ACTIONS ZONES ── */
+  .block-narrative {
+    margin-bottom: 32px;
+  }
+
+  .block-narrative-insight {
+    font-size: 15px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    border-left: 3px solid var(--grey-light);
+    padding-left: 16px;
+    margin-top: 16px;
+  }
+
+  .block-actions-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 16px;
+    padding-top: 24px;
+    border-top: var(--border-thin);
+  }
+
+  /* ── INLINE DIAGRAM (Completion + Block 5 hero) ── */
+  .arch-inline {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 2.2;
+    white-space: pre;
+    padding: 24px;
+    border: var(--border-thin);
+    background: var(--black);
+    color: var(--green);
+    user-select: none;
+  }
+
+  /* ── MOBILE DIAGRAM ── */
+  .arch-mobile-bar {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .arch-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: auto;
+      border-left: none;
+      border-bottom: var(--border-thin);
+      padding: 12px 20px;
+      z-index: 15;
+      gap: 0;
+      background: var(--white);
+    }
+
+    .arch-sidebar .arch-sidebar-label {
+      display: none;
+    }
+
+    .arch-sidebar .arch-tree {
+      display: none;
+      padding-top: 12px;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .arch-sidebar.expanded .arch-tree {
+      display: block;
+    }
+
+    .arch-mobile-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .arch-mobile-bar-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .arch-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .arch-dot-mobile {
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid var(--grey-light);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .arch-dot-mobile.filled {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .arch-dot-mobile.active {
+      border-color: var(--black);
+      animation: layerPulse 2.5s ease-in-out infinite;
+    }
+
+    .arch-mobile-chevron {
+      font-size: 10px;
+      color: var(--grey);
+      margin-left: auto;
+      transition: transform 0.2s;
+    }
+
+    .arch-sidebar.expanded .arch-mobile-chevron {
+      transform: rotate(180deg);
+    }
+
+    body.has-sidebar {
+      margin-right: 0;
+      padding-top: 48px;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .arch-mobile-bar {
+      display: none;
+    }
+  }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .arch-sidebar.reveal-mode .arch-layer {
+      animation: none;
+      opacity: 1;
+      color: var(--black);
+    }
+    .arch-dot-mobile.active {
+      animation: none;
+      opacity: 1;
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- ══════ ARCHITECTURE DIAGRAM ══════ -->
+<div class="arch-sidebar" id="archSidebar">
+  <span class="arch-sidebar-label">your infrastructure</span>
+  <div class="arch-mobile-bar" id="archMobileToggle">
+    <span class="arch-mobile-bar-label">your infrastructure</span>
+    <div class="arch-dots" id="archDots">
+      <div class="arch-dot-mobile" data-dot="claudemd"></div>
+      <div class="arch-dot-mobile" data-dot="rules"></div>
+      <div class="arch-dot-mobile" data-dot="docs"></div>
+      <div class="arch-dot-mobile" data-dot="skills"></div>
+      <div class="arch-dot-mobile" data-dot="planmode"></div>
+      <div class="arch-dot-mobile" data-dot="mcp"></div>
+    </div>
+    <span class="arch-mobile-chevron">&#9662;</span>
+  </div>
+  <div class="arch-tree" id="archTree">
+    <div class="arch-layer" data-layer="claudemd" style="--delay: 0"><span class="arch-dot">□</span> CLAUDE.md</div>
+    <div class="arch-static">└─ .claude/</div>
+    <div class="arch-layer" data-layer="rules" style="--delay: 1">   ├─ <span class="arch-dot">□</span> rules/</div>
+    <div class="arch-layer" data-layer="docs" style="--delay: 2">   ├─ <span class="arch-dot">□</span> docs/</div>
+    <div class="arch-layer" data-layer="skills" style="--delay: 3">   ├─ <span class="arch-dot">□</span> skills/</div>
+    <div class="arch-layer" data-layer="mcp" style="--delay: 4">   └─ <span class="arch-dot">□</span> MCP servers</div>
+    <div class="arch-layer arch-layer-separated" data-layer="planmode" style="--delay: 5"><span class="arch-dot">□</span> Plan Mode</div>
+  </div>
+  <div class="arch-block-indicator" id="archBlockIndicator"></div>
+</div>
 
 <!-- ══════ HOOK ══════ -->
 <section class="screen" id="hook">
@@ -375,36 +679,41 @@
       </div>
     </div>
     <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
-      <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
-      <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
-      <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 32px;">
-        91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. separately, these are features. together, they're the system that puts you in the 33%.
-      </p>
-      <div class="codeblock" style="margin-bottom: 32px;">
-        <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (project context — architecture, conventions, key files)
-  └→ .claude/
-      ├→ rules/ (always-loaded corrections — mistakes Claude won't repeat)
-      ├→ docs/ (reference material Claude reads on demand)
-      ├→ skills/ (your encoded workflows — invokable by name)
-      └→ MCP servers (external tool access — Jira, Figma, builds)</pre>
+      <div class="block-narrative">
+        <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
+        <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
+        <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7;">
+          91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. infrastructure compounds — each layer multiplies the ones below it. that's the whole point.
+        </p>
+        <p class="block-narrative-insight">look at the diagram on the right. every filled square is a layer you built. alone, each one saves you a few minutes. together, they compound — Claude doesn't just know your code, it knows your conventions, runs your workflows, plans before executing, and reaches your external tools. same model everyone else uses. different infrastructure.</p>
       </div>
-      <div style="margin-top: 16px;">
+      <div class="arch-inline" id="block5Diagram" style="margin-bottom: 32px;">
+CLAUDE.md ─────────── ■  context
+  └── .claude/
+      ├── rules/ ────── ■  corrections
+      ├── docs/ ─────── ■  reference
+      ├── skills/ ────── ■  workflows
+      └── MCP servers ── ■  integrations
+  ─────────────────────
+  Plan Mode ─────────── ■  orchestration</div>
+      <div class="block-actions-label">actions</div>
+      <div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 0, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 0, this)}"></div>
-          <div class="step-text">Review the architecture diagram above — map YOUR files to each layer</div>
+          <div class="step-text"><span class="step-prompt">$</span>Review the diagram — map YOUR files to each layer</div>
         </div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 1, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 1, this)}"></div>
           <div class="step-text">
-            Test the compound: give Claude a task that touches multiple layers
-            <br><span style="color: var(--grey); font-size: 12px;">Pick a task that requires your context, uses a skill, benefits from Plan Mode, and pulls data from an MCP server. Watch it work.</span>
+            <span class="step-prompt">$</span>Test the compound: give Claude a task that touches multiple layers
+            <br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">Pick a task that requires your context, uses a skill, benefits from Plan Mode, and pulls data from an MCP server. Watch it work.</span>
           </div>
         </div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 2, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 2, this)}"></div>
           <div class="step-text">
-            Internalize the maintenance rules
-            <br><span style="color: var(--grey); font-size: 12px;">Wrong answer twice → add a rule. Repeated workflow → create a skill. Context gets stale → update CLAUDE.md.</span>
+            <span class="step-prompt">$</span>Internalize the maintenance rules
+            <br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">Wrong answer twice → add a rule. Repeated workflow → create a skill. Context gets stale → update CLAUDE.md.</span>
           </div>
         </div>
       </div>
@@ -426,6 +735,15 @@
       <h1 class="headline-xl" style="margin-bottom: 24px; text-align: center;">
         next time someone asks what changed since you adopted AI —<br>you have an answer.
       </h1>
+      <div class="arch-inline" style="margin-bottom: 32px; text-align: left;">
+CLAUDE.md ─────────── ■  context
+  └── .claude/
+      ├── rules/ ────── ■  corrections
+      ├── docs/ ─────── ■  reference
+      ├── skills/ ────── ■  workflows
+      └── MCP servers ── ■  integrations
+  ─────────────────────
+  Plan Mode ─────────── ■  orchestration</div>
       <div style="border-top: var(--border-thick); padding-top: 24px; margin-bottom: 32px;">
         <p class="mono" style="font-size: 36px; font-weight: 700;" id="finalScore"></p>
         <p class="mono-sm text-grey" style="margin-top: 4px;" id="finalTime"></p>
@@ -466,7 +784,7 @@
 </div>
 
 <!-- ══════ STICKY NAV ══════ -->
-<div id="stickyNav" style="display: none; position: fixed; bottom: 24px; right: 24px; z-index: 10; display: none; gap: 8px;">
+<div id="stickyNav" style="display: none; position: fixed; bottom: 24px; z-index: 10; gap: 8px;">
   <button class="btn btn-ghost" onclick="navigateBlock(-1)" style="padding: 10px 16px; font-size: 12px;">← back</button>
   <button class="btn" id="stickyNextBtn" onclick="navigateBlock(1)" style="padding: 10px 16px; font-size: 12px;">next →</button>
 </div>
@@ -613,6 +931,16 @@ const Router = {
     if (target === 'diagnose') Quiz.init();
     if (target === 'complete') populateCompletion();
 
+    // Show/hide architecture diagram sidebar
+    const archSidebar = document.getElementById('archSidebar');
+    if (archSidebar) {
+      const showDiagram = target.startsWith('block-');
+      archSidebar.classList.toggle('visible', showDiagram);
+      document.body.classList.toggle('has-sidebar', showDiagram);
+      archSidebar.classList.remove('expanded');
+    }
+    updateDiagram();
+
     // Show/hide sticky nav
     const stickyNav = document.getElementById('stickyNav');
     if (stickyNav) {
@@ -647,6 +975,11 @@ document.getElementById('resumeBtn').addEventListener('click', () => {
 
 document.getElementById('resumeDismiss').addEventListener('click', () => {
   document.getElementById('resumeBanner').classList.remove('visible');
+});
+
+// ── MOBILE DIAGRAM TOGGLE ──
+document.getElementById('archMobileToggle').addEventListener('click', () => {
+  document.getElementById('archSidebar').classList.toggle('expanded');
 });
 
 // ── KEYBOARD NAV ──
@@ -768,7 +1101,7 @@ const Quiz = {
     document.getElementById('scoreNumber').textContent = result.score + ' / 6';
 
     const tiers = {
-      'no-infrastructure': { label: 'no infrastructure.', verdict: "you're in the 67% where AI adoption changed nothing. all 5 blocks apply." },
+      'no-infrastructure': { label: 'no infrastructure.', verdict: "that's not adoption. that's just access. all 5 blocks apply." },
       'has-pieces': { label: 'pieces, not a system.', verdict: "you have fragments. they don't compound yet. blocks 2–5 will wire them together." },
       'ahead': { label: "you're close.", verdict: 'you have most of the pieces. this sprint connects them into the system that puts you in the 33%.' }
     };
@@ -784,10 +1117,11 @@ const BLOCKS = {
   1: {
     title: 'the context layer.',
     time: '~8 min',
-    promise: 'your AI stops starting from zero every conversation',
-    context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote a 40\u201380 line file once, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
+    promise: 'the tool isn\u2019t the bottleneck. the environment is.',
+    context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote one file, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
+    narrative: "context isn't just 'telling Claude about your project.' it's the difference between a 2-message conversation and a 20-message one. engineers who maintain their context layer report 3-4x fewer correction cycles. the AI stops guessing and starts knowing — your architecture, your conventions, your past mistakes.",
     steps: [
-      { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it under 80 lines and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n#\n# Target: 40-80 lines. Under 60 is ideal.\n# Every line must pass: "would Claude break without this?"' },
+      { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it lean and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops. Use @-imports to reference deeper docs instead of inlining everything.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n# 5. @-imports to .claude/docs/ for anything longer\n#\n# Keep it focused. Every line must pass:\n# "would Claude break without this?"' },
       { text: 'Add one rule to <code>.claude/rules/</code> that encodes a real correction', detail: 'Rules are always-loaded instructions that survive across sessions. The highest-leverage use: encode mistakes Claude keeps making in YOUR project. Not generic conventions \u2014 specific corrections that prevent repeat failures.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [The specific mistake Claude makes]\n\n[What to do instead, with example]\nEOF' },
       { text: 'Add a doc to <code>.claude/docs/</code> for on-demand reference', detail: 'Progressive disclosure: don\u2019t stuff everything into CLAUDE.md. Put architecture docs, API contracts, and team conventions in .claude/docs/ \u2014 Claude loads them only when relevant. This keeps your context budget lean.', code: 'mkdir -p .claude/docs\ncat > .claude/docs/architecture.md << \'EOF\'\n# Architecture Overview\n\n[Your stack, key patterns, important decisions]\nEOF' },
       { text: 'Run <code>/context</code> \u2014 audit your token budget', detail: 'Models advertise 1M+ token windows, but accuracy drops past ~32K tokens. Every token in your context should earn its place. Strip boilerplate, keep signal.' }
@@ -799,6 +1133,7 @@ const BLOCKS = {
     time: '~6 min',
     promise: 'your workflows are encoded, not explained',
     context: "the engineer replacing you doesn't explain their review process to Claude every PR. they encoded it once as a skill — a markdown file that loads on demand. their whole team runs the same workflow with one slash command. yours re-explains the checklist every time and gets different results every time.",
+    narrative: "most teams use AI at the individual level. skills turn individual expertise into team capability. the workflow your best engineer runs manually becomes a command anyone can invoke — same quality, no tribal knowledge required.",
     steps: [
       { text: 'Open your <code>.claude/skills/</code> — how many workflows are encoded?', detail: 'How many workflows does your team repeat daily that aren\'t skills yet? Code review, PR creation, test writing, deployment — pick the most painful one.' },
       { text: 'Write a skill that encodes YOUR team\'s actual process', detail: 'Not a generic template. A skill with your conventions, your file patterns, your criteria. The format: YAML frontmatter (name + description) followed by step-by-step instructions.', code: 'mkdir -p .claude/skills\ncat > .claude/skills/your-workflow.md << \'EOF\'\n---\nname: your-workflow\ndescription: [What this workflow does]\n---\n\n# [Workflow Name]\n\n1. [First step with YOUR conventions]\n2. [Second step referencing YOUR patterns]\n3. [Third step with YOUR criteria]\nEOF' },
@@ -812,6 +1147,7 @@ const BLOCKS = {
     time: '~6 min',
     promise: 'you plan before you execute',
     context: "the engineer replacing you doesn't go from prompt to code in one shot. they make the AI plan first — review the approach, edit the steps, catch the wrong assumptions before a single line is written. 69% of AI-generated code that looks correct has hidden flaws. planning is how you catch them before they ship.",
+    narrative: "the prompt-to-code workflow is a coin flip at scale. Plan Mode forces architectural thinking before execution. the 5 minutes you spend reviewing a plan saves the 40 minutes you'd spend undoing confidently wrong code.",
     steps: [
       { text: 'Take a real task from your backlog', detail: 'Not a toy. Something with 2–3 files and at least one architectural decision. The kind of task where going straight to code would be gambling.' },
       { text: 'Use Plan Mode — let Claude generate a plan first', detail: 'Does the plan reference your CLAUDE.md conventions? Does it know your patterns? If not, your context layer from block 1 isn\'t working. Go back and fix it.', code: 'Shift+Tab to toggle Plan Mode\n# or type:\n/plan' },
@@ -824,7 +1160,8 @@ const BLOCKS = {
     title: 'the integrations layer.',
     time: '~5 min',
     promise: 'your AI reaches the tools you actually use',
-    context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI is plugged into everything through MCP — the USB-C of AI tools. one protocol, every integration. yours still can't read a ticket without you switching tabs.",
+    context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI reaches their build system, their design tools, their project management. yours can only read files.",
+    narrative: "your AI operates in a silo. every time you leave the terminal to copy-paste from Jira, Figma, or a crash log, you're doing the integration work that MCP servers automate. each server you connect removes a context-switching round trip.",
     steps: [
       { text: 'Run <code>claude mcp list</code> — what\'s connected?', detail: 'What\'s missing from your daily workflow? Where do you still leave the terminal to copy-paste context?', code: 'claude mcp list' },
       { text: 'Add one MCP server that closes a real gap', detail: '<strong>Figma</strong> — design-to-code, push UIs back. <a href="https://help.figma.com/hc/en-us/articles/32132100833559" target="_blank" style="color: var(--black);">docs →</a><br><strong>Atlassian</strong> — Jira tickets + Confluence docs in your session. <a href="https://www.atlassian.com/platform/remote-mcp-server" target="_blank" style="color: var(--black);">docs →</a><br><strong>Context7</strong> — real-time library docs, no more hallucinated APIs. <a href="https://github.com/upstash/context7" target="_blank" style="color: var(--black);">docs →</a><br><strong>Playwright</strong> — browser automation, self-QA your UI. <a href="https://github.com/microsoft/playwright-mcp" target="_blank" style="color: var(--black);">docs →</a><br><strong>XcodeBuildMCP</strong> — build, test, debug iOS without opening Xcode. <a href="https://github.com/getsentry/XcodeBuildMCP" target="_blank" style="color: var(--black);">docs →</a>', code: '# Pick one:\n\n# Design — Figma (configured as plugin, verify with /mcp)\n\n# Project management — Jira + Confluence\nclaude mcp add -t streamable-http atlassian https://mcp.atlassian.com/v1/mcp\n\n# Documentation — real-time library docs\nclaude mcp add context7 -- npx -y @upstash/context7-mcp@latest\n\n# Browser automation — Playwright\nclaude mcp add playwright -- npx -y @playwright/mcp@latest\n\n# iOS/macOS — build, test, debug\nclaude mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp' },
@@ -853,10 +1190,14 @@ function renderBlock(num) {
         </div>
       </div>
       <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
-        <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
-        <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
-        <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 8px;">${block.context}</p>
-        <div style="margin-top: 16px;">
+        <div class="block-narrative">
+          <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
+          <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
+          <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7;">${block.context}</p>
+          ${block.narrative ? '<p class="block-narrative-insight">' + block.narrative + '</p>' : ''}
+        </div>
+        <div class="block-actions-label">actions</div>
+        <div>
           ${block.steps.map((step, i) => `
             <div class="step">
               <div class="step-check ${State.isStepChecked(num, i) ? 'checked' : ''}"
@@ -867,8 +1208,8 @@ function renderBlock(num) {
                    onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(${num}, ${i}, this)}"
               >${State.isStepChecked(num, i) ? '\u2715' : ''}</div>
               <div class="step-text">
-                ${step.text}
-                ${step.detail ? '<br><span style="color: var(--grey); font-size: 12px;">' + step.detail + '</span>' : ''}
+                <span class="step-prompt">$</span>${step.text}
+                ${step.detail ? '<br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">' + step.detail + '</span>' : ''}
               </div>
             </div>
             ${step.code ? `
@@ -893,6 +1234,69 @@ function handleStepCheck(blockNum, stepIndex, el) {
   el.classList.toggle('checked', checked);
   el.textContent = checked ? '\u2715' : '';
   el.setAttribute('aria-checked', checked);
+  updateDiagram();
+}
+
+// ── DIAGRAM STATE ──
+const LAYER_BLOCK_MAP = {
+  claudemd: 1, rules: 1, docs: 1,
+  skills: 2, planmode: 3, mcp: 4
+};
+
+function updateDiagram() {
+  const sidebar = document.getElementById('archSidebar');
+  if (!sidebar || !sidebar.classList.contains('visible')) return;
+
+  const hash = location.hash.slice(1) || 'hook';
+  const currentBlock = hash.startsWith('block-') ? parseInt(hash.split('-')[1]) :
+                       hash === 'complete' ? 6 : 0;
+  const isReveal = currentBlock >= 5;
+
+  sidebar.classList.toggle('reveal-mode', currentBlock === 5 && !State.isBlockCompleted(5));
+
+  sidebar.querySelectorAll('.arch-layer').forEach(layer => {
+    const layerBlock = LAYER_BLOCK_MAP[layer.dataset.layer];
+    const dot = layer.querySelector('.arch-dot');
+    layer.classList.remove('layer-locked', 'layer-active', 'layer-completed');
+
+    if (isReveal || State.isBlockCompleted(layerBlock)) {
+      layer.classList.add('layer-completed');
+      if (dot) dot.textContent = '■';
+    } else if (layerBlock === currentBlock) {
+      layer.classList.add('layer-active');
+      if (dot) dot.textContent = '□';
+    } else {
+      layer.classList.add('layer-locked');
+      if (dot) dot.textContent = '□';
+    }
+  });
+
+  // Update mobile dots
+  sidebar.querySelectorAll('.arch-dot-mobile').forEach(dot => {
+    const layerBlock = LAYER_BLOCK_MAP[dot.dataset.dot];
+    dot.classList.remove('filled', 'active');
+    if (isReveal || State.isBlockCompleted(layerBlock)) {
+      dot.classList.add('filled');
+    } else if (layerBlock === currentBlock) {
+      dot.classList.add('active');
+    }
+  });
+
+  // Brighten static tree connectors when adjacent layers are completed
+  sidebar.querySelectorAll('.arch-static').forEach(el => {
+    const hasCompletedSibling = el.previousElementSibling?.classList.contains('layer-completed') ||
+                                 el.nextElementSibling?.classList.contains('layer-completed');
+    el.style.color = hasCompletedSibling || isReveal ? 'var(--black)' : '';
+  });
+
+  // Update block indicator
+  const indicator = document.getElementById('archBlockIndicator');
+  if (indicator) {
+    const blockNames = { 1: 'context', 2: 'skills', 3: 'orchestration', 4: 'integrations', 5: 'the system' };
+    indicator.textContent = currentBlock >= 1 && currentBlock <= 5
+      ? 'block ' + currentBlock + ' — ' + blockNames[currentBlock]
+      : '';
+  }
 }
 
 // Render all blocks on load
@@ -947,8 +1351,18 @@ function populateCompletion() {
   }).join('');
 }
 
+// ── RESTORE BLOCK 5 CHECKBOXES ──
+document.querySelectorAll('#block-5 .step-check').forEach((el, i) => {
+  if (State.isStepChecked(5, i)) {
+    el.classList.add('checked');
+    el.textContent = '\u2715';
+    el.setAttribute('aria-checked', 'true');
+  }
+});
+
 // ── INIT ──
 Router.init();
+updateDiagram();
 </script>
 
 </body>
