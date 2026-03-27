@@ -641,23 +641,28 @@
       </div>
     </div>
     <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
-      <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
-      <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
-      <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 32px;">
-        91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. separately, these are features. together, they're the system that puts you in the 33%.
-      </p>
-      <div class="codeblock" style="margin-bottom: 32px;">
-        <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (project context — architecture, conventions, key files)
-  └→ .claude/
-      ├→ rules/ (always-loaded corrections — mistakes Claude won't repeat)
-      ├→ docs/ (reference material Claude reads on demand)
-      ├→ skills/ (your encoded workflows — invokable by name)
-      └→ MCP servers (external tool access — Jira, Figma, builds)</pre>
+      <div class="block-narrative">
+        <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
+        <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
+        <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7;">
+          91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. separately, these are features. together, they're the system that puts you in the 33%.
+        </p>
+        <p class="block-narrative-insight">look at the diagram on the right. every filled square is a layer you built. alone, each one saves you a few minutes. together, they compound — Claude doesn't just know your code, it knows your conventions, runs your workflows, plans before executing, and reaches your external tools. same model everyone else uses. different infrastructure.</p>
       </div>
-      <div style="margin-top: 16px;">
+      <div class="arch-inline" id="block5Diagram" style="margin-bottom: 32px;">
+CLAUDE.md ─────────── ■  context
+  └── .claude/
+      ├── rules/ ────── ■  corrections
+      ├── docs/ ─────── ■  reference
+      ├── skills/ ────── ■  workflows
+      └── MCP servers ── ■  integrations
+  ─────────────────────
+  Plan Mode ─────────── ■  orchestration</div>
+      <div class="block-actions-label">actions</div>
+      <div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 0, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 0, this)}"></div>
-          <div class="step-text"><span class="step-prompt">$</span>Review the architecture diagram above — map YOUR files to each layer</div>
+          <div class="step-text"><span class="step-prompt">$</span>Review the diagram — map YOUR files to each layer</div>
         </div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 1, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 1, this)}"></div>
@@ -692,6 +697,15 @@
       <h1 class="headline-xl" style="margin-bottom: 24px; text-align: center;">
         next time someone asks what changed since you adopted AI —<br>you have an answer.
       </h1>
+      <div class="arch-inline" style="margin-bottom: 32px; text-align: left;">
+CLAUDE.md ─────────── ■  context
+  └── .claude/
+      ├── rules/ ────── ■  corrections
+      ├── docs/ ─────── ■  reference
+      ├── skills/ ────── ■  workflows
+      └── MCP servers ── ■  integrations
+  ─────────────────────
+  Plan Mode ─────────── ■  orchestration</div>
       <div style="border-top: var(--border-thick); padding-top: 24px; margin-bottom: 32px;">
         <p class="mono" style="font-size: 36px; font-weight: 700;" id="finalScore"></p>
         <p class="mono-sm text-grey" style="margin-top: 4px;" id="finalTime"></p>
@@ -1289,6 +1303,15 @@ function populateCompletion() {
     '</div>';
   }).join('');
 }
+
+// ── RESTORE BLOCK 5 CHECKBOXES ──
+document.querySelectorAll('#block-5 .step-check').forEach((el, i) => {
+  if (State.isStepChecked(5, i)) {
+    el.classList.add('checked');
+    el.textContent = '\u2715';
+    el.setAttribute('aria-checked', 'true');
+  }
+});
 
 // ── INIT ──
 Router.init();
