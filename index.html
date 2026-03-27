@@ -679,7 +679,7 @@
         <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
         <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
         <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7;">
-          91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. separately, these are features. together, they're the system that puts you in the 33%.
+          91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. infrastructure compounds — each layer multiplies the ones below it. that's the whole point.
         </p>
         <p class="block-narrative-insight">look at the diagram on the right. every filled square is a layer you built. alone, each one saves you a few minutes. together, they compound — Claude doesn't just know your code, it knows your conventions, runs your workflows, plans before executing, and reaches your external tools. same model everyone else uses. different infrastructure.</p>
       </div>
@@ -1097,7 +1097,7 @@ const Quiz = {
     document.getElementById('scoreNumber').textContent = result.score + ' / 6';
 
     const tiers = {
-      'no-infrastructure': { label: 'no infrastructure.', verdict: "you're in the 67% where AI adoption changed nothing. all 5 blocks apply." },
+      'no-infrastructure': { label: 'no infrastructure.', verdict: "that's not adoption. that's just access. all 5 blocks apply." },
       'has-pieces': { label: 'pieces, not a system.', verdict: "you have fragments. they don't compound yet. blocks 2–5 will wire them together." },
       'ahead': { label: "you're close.", verdict: 'you have most of the pieces. this sprint connects them into the system that puts you in the 33%.' }
     };
@@ -1113,11 +1113,11 @@ const BLOCKS = {
   1: {
     title: 'the context layer.',
     time: '~8 min',
-    promise: 'your AI stops starting from zero every conversation',
-    context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote a 40\u201380 line file once, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
+    promise: 'the tool isn\u2019t the bottleneck. the environment is.',
+    context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote one file, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
     narrative: "context isn't just 'telling Claude about your project.' it's the difference between a 2-message conversation and a 20-message one. engineers who maintain their context layer report 3-4x fewer correction cycles. the AI stops guessing and starts knowing — your architecture, your conventions, your past mistakes.",
     steps: [
-      { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it under 80 lines and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n#\n# Target: 40-80 lines. Under 60 is ideal.\n# Every line must pass: "would Claude break without this?"' },
+      { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it lean and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops. Use @-imports to reference deeper docs instead of inlining everything.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n# 5. @-imports to .claude/docs/ for anything longer\n#\n# Keep it focused. Every line must pass:\n# "would Claude break without this?"' },
       { text: 'Add one rule to <code>.claude/rules/</code> that encodes a real correction', detail: 'Rules are always-loaded instructions that survive across sessions. The highest-leverage use: encode mistakes Claude keeps making in YOUR project. Not generic conventions \u2014 specific corrections that prevent repeat failures.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [The specific mistake Claude makes]\n\n[What to do instead, with example]\nEOF' },
       { text: 'Add a doc to <code>.claude/docs/</code> for on-demand reference', detail: 'Progressive disclosure: don\u2019t stuff everything into CLAUDE.md. Put architecture docs, API contracts, and team conventions in .claude/docs/ \u2014 Claude loads them only when relevant. This keeps your context budget lean.', code: 'mkdir -p .claude/docs\ncat > .claude/docs/architecture.md << \'EOF\'\n# Architecture Overview\n\n[Your stack, key patterns, important decisions]\nEOF' },
       { text: 'Run <code>/context</code> \u2014 audit your token budget', detail: 'Models advertise 1M+ token windows, but accuracy drops past ~32K tokens. Every token in your context should earn its place. Strip boilerplate, keep signal.' }
@@ -1156,7 +1156,7 @@ const BLOCKS = {
     title: 'the integrations layer.',
     time: '~5 min',
     promise: 'your AI reaches the tools you actually use',
-    context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI is plugged into everything through MCP — the USB-C of AI tools. one protocol, every integration. yours still can't read a ticket without you switching tabs.",
+    context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI reaches their build system, their design tools, their project management. yours can only read files.",
     narrative: "your AI operates in a silo. every time you leave the terminal to copy-paste from Jira, Figma, or a crash log, you're doing the integration work that MCP servers automate. each server you connect removes a context-switching round trip.",
     steps: [
       { text: 'Run <code>claude mcp list</code> — what\'s connected?', detail: 'What\'s missing from your daily workflow? Where do you still leave the terminal to copy-paste context?', code: 'claude mcp list' },
