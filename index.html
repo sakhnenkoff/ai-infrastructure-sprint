@@ -319,14 +319,15 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 260px;
+    width: 240px;
     height: 100vh;
-    padding: 40px 24px;
+    padding: 32px 20px;
     border-left: var(--border-thick);
     background: var(--white);
     z-index: 5;
     flex-direction: column;
-    gap: 24px;
+    justify-content: center;
+    gap: 16px;
   }
   .arch-sidebar.visible {
     display: flex;
@@ -342,8 +343,8 @@
 
   .arch-tree {
     font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 2.2;
+    font-size: 12px;
+    line-height: 1.6;
     white-space: pre;
     user-select: none;
   }
@@ -359,18 +360,35 @@
 
   .arch-dot {
     display: inline;
+    font-size: 10px;
+  }
+
+  .arch-layer-separated {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--grey-light);
+  }
+
+  .arch-block-indicator {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: auto;
+    padding-top: 16px;
   }
 
   /* ── LAYER STATES ── */
   .arch-layer.layer-locked {
-    opacity: 0.15;
+    opacity: 0.3;
     color: var(--grey);
   }
 
   .arch-layer.layer-active {
     opacity: 1;
     color: var(--black);
-    animation: layerPulse 2.5s ease-in-out infinite;
+    font-weight: 600;
   }
 
   .arch-layer.layer-completed {
@@ -403,7 +421,7 @@
   /* ── BODY ADJUSTMENT FOR SIDEBAR ── */
   @media (min-width: 769px) {
     body.has-sidebar {
-      margin-right: 260px;
+      margin-right: 240px;
     }
   }
 
@@ -554,9 +572,6 @@
 
   /* ── REDUCED MOTION ── */
   @media (prefers-reduced-motion: reduce) {
-    .arch-layer.layer-active {
-      animation: none;
-    }
     .arch-sidebar.reveal-mode .arch-layer {
       animation: none;
       opacity: 1;
@@ -564,6 +579,7 @@
     }
     .arch-dot-mobile.active {
       animation: none;
+      opacity: 1;
     }
   }
 </style>
@@ -586,15 +602,15 @@
     <span class="arch-mobile-chevron">&#9662;</span>
   </div>
   <div class="arch-tree" id="archTree">
-    <div class="arch-layer" data-layer="claudemd" style="--delay: 0">CLAUDE.md ─────────── <span class="arch-dot">□</span></div>
-    <div class="arch-static">  └── .claude/</div>
-    <div class="arch-layer" data-layer="rules" style="--delay: 1">      ├── rules/ ────── <span class="arch-dot">□</span></div>
-    <div class="arch-layer" data-layer="docs" style="--delay: 2">      ├── docs/ ─────── <span class="arch-dot">□</span></div>
-    <div class="arch-layer" data-layer="skills" style="--delay: 3">      ├── skills/ ────── <span class="arch-dot">□</span></div>
-    <div class="arch-layer" data-layer="mcp" style="--delay: 4">      └── MCP servers ── <span class="arch-dot">□</span></div>
-    <div class="arch-static">  ─────────────────────</div>
-    <div class="arch-layer" data-layer="planmode" style="--delay: 5">  Plan Mode ─────────── <span class="arch-dot">□</span></div>
+    <div class="arch-layer" data-layer="claudemd" style="--delay: 0"><span class="arch-dot">□</span> CLAUDE.md</div>
+    <div class="arch-static">└─ .claude/</div>
+    <div class="arch-layer" data-layer="rules" style="--delay: 1">   ├─ <span class="arch-dot">□</span> rules/</div>
+    <div class="arch-layer" data-layer="docs" style="--delay: 2">   ├─ <span class="arch-dot">□</span> docs/</div>
+    <div class="arch-layer" data-layer="skills" style="--delay: 3">   ├─ <span class="arch-dot">□</span> skills/</div>
+    <div class="arch-layer" data-layer="mcp" style="--delay: 4">   └─ <span class="arch-dot">□</span> MCP servers</div>
+    <div class="arch-layer arch-layer-separated" data-layer="planmode" style="--delay: 5"><span class="arch-dot">□</span> Plan Mode</div>
   </div>
+  <div class="arch-block-indicator" id="archBlockIndicator"></div>
 </div>
 
 <!-- ══════ HOOK ══════ -->
@@ -1265,6 +1281,15 @@ function updateDiagram() {
                                  el.nextElementSibling?.classList.contains('layer-completed');
     el.style.color = hasCompletedSibling || isReveal ? 'var(--black)' : '';
   });
+
+  // Update block indicator
+  const indicator = document.getElementById('archBlockIndicator');
+  if (indicator) {
+    const blockNames = { 1: 'context', 2: 'skills', 3: 'orchestration', 4: 'integrations', 5: 'the system' };
+    indicator.textContent = currentBlock >= 1 && currentBlock <= 5
+      ? 'block ' + currentBlock + ' — ' + blockNames[currentBlock]
+      : '';
+  }
 }
 
 // Render all blocks on load
