@@ -657,20 +657,20 @@
       <div style="margin-top: 16px;">
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 0, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 0, this)}"></div>
-          <div class="step-text">Review the architecture diagram above — map YOUR files to each layer</div>
+          <div class="step-text"><span class="step-prompt">$</span>Review the architecture diagram above — map YOUR files to each layer</div>
         </div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 1, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 1, this)}"></div>
           <div class="step-text">
-            Test the compound: give Claude a task that touches multiple layers
-            <br><span style="color: var(--grey); font-size: 12px;">Pick a task that requires your context, uses a skill, benefits from Plan Mode, and pulls data from an MCP server. Watch it work.</span>
+            <span class="step-prompt">$</span>Test the compound: give Claude a task that touches multiple layers
+            <br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">Pick a task that requires your context, uses a skill, benefits from Plan Mode, and pulls data from an MCP server. Watch it work.</span>
           </div>
         </div>
         <div class="step">
           <div class="step-check" onclick="handleStepCheck(5, 2, this)" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(5, 2, this)}"></div>
           <div class="step-text">
-            Internalize the maintenance rules
-            <br><span style="color: var(--grey); font-size: 12px;">Wrong answer twice → add a rule. Repeated workflow → create a skill. Context gets stale → update CLAUDE.md.</span>
+            <span class="step-prompt">$</span>Internalize the maintenance rules
+            <br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">Wrong answer twice → add a rule. Repeated workflow → create a skill. Context gets stale → update CLAUDE.md.</span>
           </div>
         </div>
       </div>
@@ -1067,6 +1067,7 @@ const BLOCKS = {
     time: '~8 min',
     promise: 'your AI stops starting from zero every conversation',
     context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote a 40\u201380 line file once, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
+    narrative: "context isn't just 'telling Claude about your project.' it's the difference between a 2-message conversation and a 20-message one. engineers who maintain their context layer report 3-4x fewer correction cycles. the AI stops guessing and starts knowing — your architecture, your conventions, your past mistakes.",
     steps: [
       { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it under 80 lines and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n#\n# Target: 40-80 lines. Under 60 is ideal.\n# Every line must pass: "would Claude break without this?"' },
       { text: 'Add one rule to <code>.claude/rules/</code> that encodes a real correction', detail: 'Rules are always-loaded instructions that survive across sessions. The highest-leverage use: encode mistakes Claude keeps making in YOUR project. Not generic conventions \u2014 specific corrections that prevent repeat failures.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [The specific mistake Claude makes]\n\n[What to do instead, with example]\nEOF' },
@@ -1080,6 +1081,7 @@ const BLOCKS = {
     time: '~6 min',
     promise: 'your workflows are encoded, not explained',
     context: "the engineer replacing you doesn't explain their review process to Claude every PR. they encoded it once as a skill — a markdown file that loads on demand. their whole team runs the same workflow with one slash command. yours re-explains the checklist every time and gets different results every time.",
+    narrative: "most teams use AI at the individual level. skills turn individual expertise into team capability. the workflow your best engineer runs manually becomes a command anyone can invoke — same quality, no tribal knowledge required.",
     steps: [
       { text: 'Open your <code>.claude/skills/</code> — how many workflows are encoded?', detail: 'How many workflows does your team repeat daily that aren\'t skills yet? Code review, PR creation, test writing, deployment — pick the most painful one.' },
       { text: 'Write a skill that encodes YOUR team\'s actual process', detail: 'Not a generic template. A skill with your conventions, your file patterns, your criteria. The format: YAML frontmatter (name + description) followed by step-by-step instructions.', code: 'mkdir -p .claude/skills\ncat > .claude/skills/your-workflow.md << \'EOF\'\n---\nname: your-workflow\ndescription: [What this workflow does]\n---\n\n# [Workflow Name]\n\n1. [First step with YOUR conventions]\n2. [Second step referencing YOUR patterns]\n3. [Third step with YOUR criteria]\nEOF' },
@@ -1093,6 +1095,7 @@ const BLOCKS = {
     time: '~6 min',
     promise: 'you plan before you execute',
     context: "the engineer replacing you doesn't go from prompt to code in one shot. they make the AI plan first — review the approach, edit the steps, catch the wrong assumptions before a single line is written. 69% of AI-generated code that looks correct has hidden flaws. planning is how you catch them before they ship.",
+    narrative: "the prompt-to-code workflow is a coin flip at scale. Plan Mode forces architectural thinking before execution. the 5 minutes you spend reviewing a plan saves the 40 minutes you'd spend undoing confidently wrong code.",
     steps: [
       { text: 'Take a real task from your backlog', detail: 'Not a toy. Something with 2–3 files and at least one architectural decision. The kind of task where going straight to code would be gambling.' },
       { text: 'Use Plan Mode — let Claude generate a plan first', detail: 'Does the plan reference your CLAUDE.md conventions? Does it know your patterns? If not, your context layer from block 1 isn\'t working. Go back and fix it.', code: 'Shift+Tab to toggle Plan Mode\n# or type:\n/plan' },
@@ -1106,6 +1109,7 @@ const BLOCKS = {
     time: '~5 min',
     promise: 'your AI reaches the tools you actually use',
     context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI is plugged into everything through MCP — the USB-C of AI tools. one protocol, every integration. yours still can't read a ticket without you switching tabs.",
+    narrative: "your AI operates in a silo. every time you leave the terminal to copy-paste from Jira, Figma, or a crash log, you're doing the integration work that MCP servers automate. each server you connect removes a context-switching round trip.",
     steps: [
       { text: 'Run <code>claude mcp list</code> — what\'s connected?', detail: 'What\'s missing from your daily workflow? Where do you still leave the terminal to copy-paste context?', code: 'claude mcp list' },
       { text: 'Add one MCP server that closes a real gap', detail: '<strong>Figma</strong> — design-to-code, push UIs back. <a href="https://help.figma.com/hc/en-us/articles/32132100833559" target="_blank" style="color: var(--black);">docs →</a><br><strong>Atlassian</strong> — Jira tickets + Confluence docs in your session. <a href="https://www.atlassian.com/platform/remote-mcp-server" target="_blank" style="color: var(--black);">docs →</a><br><strong>Context7</strong> — real-time library docs, no more hallucinated APIs. <a href="https://github.com/upstash/context7" target="_blank" style="color: var(--black);">docs →</a><br><strong>Playwright</strong> — browser automation, self-QA your UI. <a href="https://github.com/microsoft/playwright-mcp" target="_blank" style="color: var(--black);">docs →</a><br><strong>XcodeBuildMCP</strong> — build, test, debug iOS without opening Xcode. <a href="https://github.com/getsentry/XcodeBuildMCP" target="_blank" style="color: var(--black);">docs →</a>', code: '# Pick one:\n\n# Design — Figma (configured as plugin, verify with /mcp)\n\n# Project management — Jira + Confluence\nclaude mcp add -t streamable-http atlassian https://mcp.atlassian.com/v1/mcp\n\n# Documentation — real-time library docs\nclaude mcp add context7 -- npx -y @upstash/context7-mcp@latest\n\n# Browser automation — Playwright\nclaude mcp add playwright -- npx -y @playwright/mcp@latest\n\n# iOS/macOS — build, test, debug\nclaude mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp' },
@@ -1134,10 +1138,14 @@ function renderBlock(num) {
         </div>
       </div>
       <div style="max-width: 720px; margin-top: 32px; flex: 1; width: 100%;">
-        <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
-        <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
-        <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 8px;">${block.context}</p>
-        <div style="margin-top: 16px;">
+        <div class="block-narrative">
+          <h2 class="headline-lg" style="margin-bottom: 8px;">${block.title}</h2>
+          <p class="mono-sm text-grey" style="margin-bottom: 24px;">\u2192 ${block.promise}</p>
+          <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7;">${block.context}</p>
+          ${block.narrative ? '<p class="block-narrative-insight">' + block.narrative + '</p>' : ''}
+        </div>
+        <div class="block-actions-label">actions</div>
+        <div>
           ${block.steps.map((step, i) => `
             <div class="step">
               <div class="step-check ${State.isStepChecked(num, i) ? 'checked' : ''}"
@@ -1148,8 +1156,8 @@ function renderBlock(num) {
                    onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();handleStepCheck(${num}, ${i}, this)}"
               >${State.isStepChecked(num, i) ? '\u2715' : ''}</div>
               <div class="step-text">
-                ${step.text}
-                ${step.detail ? '<br><span style="color: var(--grey); font-size: 12px;">' + step.detail + '</span>' : ''}
+                <span class="step-prompt">$</span>${step.text}
+                ${step.detail ? '<br><span style="color: var(--grey); font-size: 12px; padding-left: 18px; display: inline-block;">' + step.detail + '</span>' : ''}
               </div>
             </div>
             ${step.code ? `
