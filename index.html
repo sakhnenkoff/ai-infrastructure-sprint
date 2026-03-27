@@ -312,9 +312,275 @@
     }
     .step { gap: 10px; }
   }
+
+  /* ── ARCHITECTURE DIAGRAM SIDEBAR ── */
+  .arch-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100vh;
+    padding: 40px 24px;
+    border-left: var(--border-thick);
+    background: var(--white);
+    z-index: 5;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .arch-sidebar.visible {
+    display: flex;
+  }
+
+  .arch-sidebar-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .arch-tree {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 2.2;
+    white-space: pre;
+    user-select: none;
+  }
+
+  .arch-static {
+    color: var(--grey);
+    transition: color 0.4s ease;
+  }
+
+  .arch-layer {
+    transition: opacity 0.5s ease, color 0.5s ease;
+  }
+
+  .arch-dot {
+    display: inline;
+  }
+
+  /* ── LAYER STATES ── */
+  .arch-layer.layer-locked {
+    opacity: 0.15;
+    color: var(--grey);
+  }
+
+  .arch-layer.layer-active {
+    opacity: 1;
+    color: var(--black);
+    animation: layerPulse 2.5s ease-in-out infinite;
+  }
+
+  .arch-layer.layer-completed {
+    opacity: 1;
+    color: var(--black);
+  }
+
+  @keyframes layerPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── REVEAL ANIMATION (Block 5) ── */
+  .arch-sidebar.reveal-mode .arch-layer {
+    animation: revealLayer 0.6s ease forwards;
+    animation-delay: calc(var(--delay) * 0.15s);
+  }
+
+  .arch-sidebar.reveal-mode .arch-static {
+    color: var(--black);
+    transition: color 0.4s ease 0.1s;
+  }
+
+  @keyframes revealLayer {
+    0% { opacity: 0.15; color: var(--grey); }
+    60% { opacity: 1; color: var(--black); transform: translateX(4px); }
+    100% { opacity: 1; color: var(--black); transform: translateX(0); }
+  }
+
+  /* ── BODY ADJUSTMENT FOR SIDEBAR ── */
+  @media (min-width: 769px) {
+    body.has-sidebar {
+      margin-right: 260px;
+    }
+  }
+
+  /* ── TERMINAL COMPANION CUES ── */
+  .step-prompt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey);
+    margin-right: 4px;
+    user-select: none;
+  }
+
+  /* ── NARRATIVE / ACTIONS ZONES ── */
+  .block-narrative {
+    margin-bottom: 32px;
+  }
+
+  .block-narrative-insight {
+    font-size: 15px;
+    color: var(--grey-dark);
+    line-height: 1.7;
+    border-left: 3px solid var(--grey-light);
+    padding-left: 16px;
+    margin-top: 16px;
+  }
+
+  .block-actions-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 16px;
+    padding-top: 24px;
+    border-top: var(--border-thin);
+  }
+
+  /* ── INLINE DIAGRAM (Completion + Block 5 hero) ── */
+  .arch-inline {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 2.2;
+    white-space: pre;
+    padding: 24px;
+    border: var(--border-thin);
+    background: var(--black);
+    color: var(--green);
+    user-select: none;
+  }
+
+  /* ── MOBILE DIAGRAM ── */
+  .arch-mobile-bar {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .arch-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: auto;
+      border-left: none;
+      border-bottom: var(--border-thin);
+      padding: 12px 20px;
+      z-index: 15;
+      gap: 0;
+      background: var(--white);
+    }
+
+    .arch-sidebar .arch-sidebar-label {
+      display: none;
+    }
+
+    .arch-sidebar .arch-tree {
+      display: none;
+      padding-top: 12px;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .arch-sidebar.expanded .arch-tree {
+      display: block;
+    }
+
+    .arch-mobile-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .arch-mobile-bar-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .arch-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .arch-dot-mobile {
+      width: 10px;
+      height: 10px;
+      border: 1.5px solid var(--grey-light);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .arch-dot-mobile.filled {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .arch-dot-mobile.active {
+      border-color: var(--black);
+      animation: layerPulse 2.5s ease-in-out infinite;
+    }
+
+    .arch-mobile-chevron {
+      font-size: 10px;
+      color: var(--grey);
+      margin-left: auto;
+      transition: transform 0.2s;
+    }
+
+    .arch-sidebar.expanded .arch-mobile-chevron {
+      transform: rotate(180deg);
+    }
+
+    body.has-sidebar {
+      margin-right: 0;
+      padding-top: 48px;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .arch-mobile-bar {
+      display: none;
+    }
+  }
 </style>
 </head>
 <body>
+
+<!-- ══════ ARCHITECTURE DIAGRAM ══════ -->
+<div class="arch-sidebar" id="archSidebar">
+  <span class="arch-sidebar-label">your infrastructure</span>
+  <div class="arch-mobile-bar" id="archMobileToggle">
+    <span class="arch-mobile-bar-label">your infrastructure</span>
+    <div class="arch-dots" id="archDots">
+      <div class="arch-dot-mobile" data-dot="claudemd"></div>
+      <div class="arch-dot-mobile" data-dot="rules"></div>
+      <div class="arch-dot-mobile" data-dot="docs"></div>
+      <div class="arch-dot-mobile" data-dot="skills"></div>
+      <div class="arch-dot-mobile" data-dot="planmode"></div>
+      <div class="arch-dot-mobile" data-dot="mcp"></div>
+    </div>
+    <span class="arch-mobile-chevron">&#9662;</span>
+  </div>
+  <div class="arch-tree" id="archTree">
+    <div class="arch-layer" data-layer="claudemd" style="--delay: 0">CLAUDE.md ─────────── <span class="arch-dot">□</span></div>
+    <div class="arch-static">  └── .claude/</div>
+    <div class="arch-layer" data-layer="rules" style="--delay: 1">      ├── rules/ ────── <span class="arch-dot">□</span></div>
+    <div class="arch-layer" data-layer="docs" style="--delay: 2">      ├── docs/ ─────── <span class="arch-dot">□</span></div>
+    <div class="arch-layer" data-layer="skills" style="--delay: 3">      ├── skills/ ────── <span class="arch-dot">□</span></div>
+    <div class="arch-layer" data-layer="mcp" style="--delay: 4">      └── MCP servers ── <span class="arch-dot">□</span></div>
+    <div class="arch-static">  ─────────────────────</div>
+    <div class="arch-layer" data-layer="planmode" style="--delay: 5">  Plan Mode ─────────── <span class="arch-dot">□</span></div>
+  </div>
+</div>
 
 <!-- ══════ HOOK ══════ -->
 <section class="screen" id="hook">
@@ -613,6 +879,16 @@ const Router = {
     if (target === 'diagnose') Quiz.init();
     if (target === 'complete') populateCompletion();
 
+    // Show/hide architecture diagram sidebar
+    const archSidebar = document.getElementById('archSidebar');
+    if (archSidebar) {
+      const showDiagram = target.startsWith('block-') || target === 'complete';
+      archSidebar.classList.toggle('visible', showDiagram);
+      document.body.classList.toggle('has-sidebar', showDiagram);
+      archSidebar.classList.remove('expanded');
+    }
+    updateDiagram();
+
     // Show/hide sticky nav
     const stickyNav = document.getElementById('stickyNav');
     if (stickyNav) {
@@ -647,6 +923,11 @@ document.getElementById('resumeBtn').addEventListener('click', () => {
 
 document.getElementById('resumeDismiss').addEventListener('click', () => {
   document.getElementById('resumeBanner').classList.remove('visible');
+});
+
+// ── MOBILE DIAGRAM TOGGLE ──
+document.getElementById('archMobileToggle').addEventListener('click', () => {
+  document.getElementById('archSidebar').classList.toggle('expanded');
 });
 
 // ── KEYBOARD NAV ──
@@ -893,6 +1174,60 @@ function handleStepCheck(blockNum, stepIndex, el) {
   el.classList.toggle('checked', checked);
   el.textContent = checked ? '\u2715' : '';
   el.setAttribute('aria-checked', checked);
+  updateDiagram();
+}
+
+// ── DIAGRAM STATE ──
+const LAYER_BLOCK_MAP = {
+  claudemd: 1, rules: 1, docs: 1,
+  skills: 2, planmode: 3, mcp: 4
+};
+
+function updateDiagram() {
+  const sidebar = document.getElementById('archSidebar');
+  if (!sidebar || !sidebar.classList.contains('visible')) return;
+
+  const hash = location.hash.slice(1) || 'hook';
+  const currentBlock = hash.startsWith('block-') ? parseInt(hash.split('-')[1]) :
+                       hash === 'complete' ? 6 : 0;
+  const isReveal = currentBlock >= 5;
+
+  sidebar.classList.toggle('reveal-mode', currentBlock === 5 && !State.isBlockCompleted(5));
+
+  document.querySelectorAll('.arch-layer').forEach(layer => {
+    const layerBlock = LAYER_BLOCK_MAP[layer.dataset.layer];
+    const dot = layer.querySelector('.arch-dot');
+    layer.classList.remove('layer-locked', 'layer-active', 'layer-completed');
+
+    if (isReveal || State.isBlockCompleted(layerBlock)) {
+      layer.classList.add('layer-completed');
+      if (dot) dot.textContent = '■';
+    } else if (layerBlock === currentBlock) {
+      layer.classList.add('layer-active');
+      if (dot) dot.textContent = '□';
+    } else {
+      layer.classList.add('layer-locked');
+      if (dot) dot.textContent = '□';
+    }
+  });
+
+  // Update mobile dots
+  document.querySelectorAll('.arch-dot-mobile').forEach(dot => {
+    const layerBlock = LAYER_BLOCK_MAP[dot.dataset.dot];
+    dot.classList.remove('filled', 'active');
+    if (isReveal || State.isBlockCompleted(layerBlock)) {
+      dot.classList.add('filled');
+    } else if (layerBlock === currentBlock) {
+      dot.classList.add('active');
+    }
+  });
+
+  // Brighten static tree connectors when adjacent layers are completed
+  document.querySelectorAll('.arch-static').forEach(el => {
+    const hasCompletedSibling = el.previousElementSibling?.classList.contains('layer-completed') ||
+                                 el.nextElementSibling?.classList.contains('layer-completed');
+    el.style.color = hasCompletedSibling || isReveal ? 'var(--black)' : '';
+  });
 }
 
 // Render all blocks on load
