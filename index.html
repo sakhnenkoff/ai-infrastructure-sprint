@@ -378,7 +378,7 @@
       <h2 class="headline-lg" style="margin-bottom: 8px;">the system.</h2>
       <p class="mono-sm text-grey" style="margin-bottom: 24px;">&rarr; the layers compound. that's the whole point.</p>
       <p style="font-size: 15px; color: var(--grey-dark); line-height: 1.7; margin-bottom: 32px;">
-        you just built four layers. separately, they're features. together, they're infrastructure. this is the moment they click.
+        91% of engineering teams adopted AI. only 33% saw real productivity gains. the difference isn't the model — it's the infrastructure around it. you just built yours. separately, these are features. together, they're the system that puts you in the 33%.
       </p>
       <div class="codeblock" style="margin-bottom: 32px;">
         <pre style="margin: 0; white-space: pre-wrap;">CLAUDE.md (project context — architecture, conventions, key files)
@@ -440,10 +440,11 @@
       </div>
       <!-- Course upsell -->
       <div style="border: var(--border-thin); padding: 24px; margin-top: 32px;">
-        <p class="headline-md" style="margin-bottom: 8px;">this was the system.</p>
+        <p class="headline-md" style="margin-bottom: 8px;">this was the system. now scale it.</p>
         <p class="mono-sm text-grey" style="margin-bottom: 16px; line-height: 1.7;">
-          the full course covers team rollout — how to onboard 50 engineers, write governance policies,
-          build custom MCP servers, and measure whether AI adoption actually changed anything.
+          you built infrastructure for yourself. the full course covers team rollout — how to onboard 50 engineers
+          without each one re-inventing the wheel, write governance policies, build custom MCP servers,
+          and measure whether AI adoption actually moved the needle.
         </p>
         <a href="https://github.com/sakhnenkoff/ai-infrastructure-course" target="_blank" class="btn" style="text-decoration: none;">explore the full course →</a>
       </div>
@@ -767,9 +768,9 @@ const Quiz = {
     document.getElementById('scoreNumber').textContent = result.score + ' / 6';
 
     const tiers = {
-      'no-infrastructure': { label: 'no infrastructure.', verdict: 'your AI starts from zero every conversation. all 5 blocks apply.' },
-      'has-pieces': { label: 'pieces, not a system.', verdict: "you have fragments. they don't connect. blocks 2–5 will close the gaps." },
-      'ahead': { label: "you're ahead.", verdict: 'this sprint will sharpen what you have and show you the full system.' }
+      'no-infrastructure': { label: 'no infrastructure.', verdict: "you're in the 67% where AI adoption changed nothing. all 5 blocks apply." },
+      'has-pieces': { label: 'pieces, not a system.', verdict: "you have fragments. they don't compound yet. blocks 2–5 will wire them together." },
+      'ahead': { label: "you're close.", verdict: 'you have most of the pieces. this sprint connects them into the system that puts you in the 33%.' }
     };
 
     const tier = tiers[result.tier];
@@ -783,47 +784,47 @@ const BLOCKS = {
   1: {
     title: 'the context layer.',
     time: '~8 min',
-    promise: 'your AI actually knows your codebase',
-    context: "you have a CLAUDE.md. congrats. is it actually connected to anything? or is it a lonely file the AI half-reads and ignores?",
+    promise: 'your AI stops starting from zero every conversation',
+    context: "the engineer replacing you doesn\u2019t re-explain their project every morning. they wrote a 40\u201380 line file once, and their AI knows the architecture, the conventions, and where the bodies are buried. teams without this explain the same patterns 4+ times per day. yours starts every session like a first day on the job.",
     steps: [
-      { text: 'Audit your <code>CLAUDE.md</code> — does it describe your real architecture?', detail: 'Not a template. YOUR stack, YOUR conventions, YOUR key files. If it says "React app" and nothing else, it\'s doing nothing.' },
-      { text: 'Add one rule to <code>.claude/rules/</code> that encodes a mistake Claude keeps making', detail: 'Not a convention — a correction. Something Claude gets wrong repeatedly in your project. Rules are always loaded, every session, automatically.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [Describe the mistake]\n\n[What Claude should do instead]\nEOF' },
-      { text: 'Add a doc to <code>.claude/docs/</code> that Claude should reference', detail: 'Architecture decisions, API contracts, team conventions — anything you\'d otherwise paste into chat. Claude can read it on demand.', code: 'mkdir -p .claude/docs\ncat > .claude/docs/architecture.md << \'EOF\'\n# Architecture Overview\n\n[Your stack, key patterns, important decisions]\nEOF' },
-      { text: 'Run <code>/context</code> — check what\'s actually being loaded', detail: 'If your context is 90% boilerplate, strip it. Every token should earn its place.' }
+      { text: 'Audit your <code>CLAUDE.md</code> \u2014 is it under 80 lines and non-obvious?', detail: 'The litmus test: would Claude make a mistake without this line? If the AI can figure it out by reading the code, delete the line. Include only non-obvious commands, architectural decisions with rationale, and verification loops.', code: '# The ideal CLAUDE.md structure:\n# 1. Build/test/lint commands (the ones AI can\'t guess)\n# 2. Architecture decisions + WHY\n# 3. Key patterns and constraints\n# 4. Verification: how to check your own work\n#\n# Target: 40-80 lines. Under 60 is ideal.\n# Every line must pass: "would Claude break without this?"' },
+      { text: 'Add one rule to <code>.claude/rules/</code> that encodes a real correction', detail: 'Rules are always-loaded instructions that survive across sessions. The highest-leverage use: encode mistakes Claude keeps making in YOUR project. Not generic conventions \u2014 specific corrections that prevent repeat failures.', code: 'mkdir -p .claude/rules\ncat > .claude/rules/fix-name-here.md << \'EOF\'\n# [The specific mistake Claude makes]\n\n[What to do instead, with example]\nEOF' },
+      { text: 'Add a doc to <code>.claude/docs/</code> for on-demand reference', detail: 'Progressive disclosure: don\u2019t stuff everything into CLAUDE.md. Put architecture docs, API contracts, and team conventions in .claude/docs/ \u2014 Claude loads them only when relevant. This keeps your context budget lean.', code: 'mkdir -p .claude/docs\ncat > .claude/docs/architecture.md << \'EOF\'\n# Architecture Overview\n\n[Your stack, key patterns, important decisions]\nEOF' },
+      { text: 'Run <code>/context</code> \u2014 audit your token budget', detail: 'Models advertise 1M+ token windows, but accuracy drops past ~32K tokens. Every token in your context should earn its place. Strip boilerplate, keep signal.' }
     ],
-    proof: "Claude describes your architecture correctly without you explaining anything. /context shows your rules and docs are loaded."
+    proof: "Claude describes your architecture correctly without you explaining anything. /context shows a lean, focused context \u2014 not a bloated knowledge dump."
   },
   2: {
     title: 'the skill layer.',
     time: '~6 min',
     promise: 'your workflows are encoded, not explained',
-    context: "you have a skill or two. your team still explains the same code review checklist to Claude every PR. that's not a skill system — that's a demo you forgot to finish.",
+    context: "the engineer replacing you doesn't explain their review process to Claude every PR. they encoded it once as a skill — a markdown file that loads on demand. their whole team runs the same workflow with one slash command. yours re-explains the checklist every time and gets different results every time.",
     steps: [
-      { text: 'Open your <code>.claude/skills/</code> — how many workflows are encoded?', detail: 'How many workflows does your team repeat daily that aren\'t skills yet? Pick the most painful one.' },
-      { text: 'Write a skill that encodes YOUR team\'s actual process', detail: 'Not a generic template. A skill with your conventions, your file patterns, your review criteria.', code: 'cat > .claude/skills/your-workflow.md << \'EOF\'\n---\nname: your-workflow\ndescription: [What this workflow does]\n---\n\n# [Workflow Name]\n\n1. [First step with YOUR conventions]\n2. [Second step referencing YOUR patterns]\n3. [Third step with YOUR criteria]\nEOF' },
-      { text: 'Test it — run <code>/your-workflow</code> in Claude Code', detail: 'Does it follow the process without hand-holding? Does it reference your project conventions?' },
-      { text: 'Add it to your AGENTS.md skill index', detail: 'So the team can discover it. A skill nobody knows about is a skill nobody uses.' }
+      { text: 'Open your <code>.claude/skills/</code> — how many workflows are encoded?', detail: 'How many workflows does your team repeat daily that aren\'t skills yet? Code review, PR creation, test writing, deployment — pick the most painful one.' },
+      { text: 'Write a skill that encodes YOUR team\'s actual process', detail: 'Not a generic template. A skill with your conventions, your file patterns, your criteria. The format: YAML frontmatter (name + description) followed by step-by-step instructions.', code: 'mkdir -p .claude/skills\ncat > .claude/skills/your-workflow.md << \'EOF\'\n---\nname: your-workflow\ndescription: [What this workflow does]\n---\n\n# [Workflow Name]\n\n1. [First step with YOUR conventions]\n2. [Second step referencing YOUR patterns]\n3. [Third step with YOUR criteria]\nEOF' },
+      { text: 'Test it — run <code>/your-workflow</code> in Claude Code', detail: 'Does it follow the process without hand-holding? Does it produce consistent output across invocations? That\'s the difference between a prompt and infrastructure.' },
+      { text: 'Tell your team it exists', detail: 'A skill nobody knows about is a skill nobody uses. Drop it in your team channel. The value multiplies with every engineer who stops re-explaining the same process.' }
     ],
-    proof: "A teammate can invoke your skill and get the same quality output you would — without knowing the process themselves."
+    proof: "A teammate invokes your skill and gets the same quality output you would — without knowing the process themselves. Consistent, every time."
   },
   3: {
     title: 'the orchestration layer.',
     time: '~6 min',
     promise: 'you plan before you execute',
-    context: "you go from prompt to code in one shot. sometimes it works. sometimes you spend 40 minutes fixing what Claude confidently broke. that's not a workflow — that's gambling.",
+    context: "the engineer replacing you doesn't go from prompt to code in one shot. they make the AI plan first — review the approach, edit the steps, catch the wrong assumptions before a single line is written. 69% of AI-generated code that looks correct has hidden flaws. planning is how you catch them before they ship.",
     steps: [
-      { text: 'Take a real task from your backlog', detail: 'Not a toy. Something with 2–3 files and at least one architectural decision.' },
-      { text: 'Use Plan Mode — let Claude generate a plan', detail: 'Does it reference your AGENTS.md conventions? If not, your context layer isn\'t working. Go back to block 1.', code: 'Shift+Tab to toggle Plan Mode\n# or\n/plan' },
-      { text: 'Edit the plan before executing', detail: 'Remove the steps that are wrong. Add constraints Claude missed. This is the part most people skip — and why their output is unpredictable.' },
-      { text: 'Execute — watch subagents handle independent subtasks in parallel', detail: 'One engineer, multiple streams of work. Claude dispatches subagents for independent pieces automatically.' }
+      { text: 'Take a real task from your backlog', detail: 'Not a toy. Something with 2–3 files and at least one architectural decision. The kind of task where going straight to code would be gambling.' },
+      { text: 'Use Plan Mode — let Claude generate a plan first', detail: 'Does the plan reference your CLAUDE.md conventions? Does it know your patterns? If not, your context layer from block 1 isn\'t working. Go back and fix it.', code: 'Shift+Tab to toggle Plan Mode\n# or type:\n/plan' },
+      { text: 'Edit the plan before executing', detail: 'This is the step that separates infrastructure from vibes. Remove wrong steps. Add constraints Claude missed. The plan should reflect YOUR architecture, not a generic approach.' },
+      { text: 'Execute — watch subagents handle independent subtasks in parallel', detail: 'Claude dispatches subagents for independent pieces automatically. One engineer, multiple streams of work. This is where the compound effect of context + skills + planning clicks.' }
     ],
-    proof: "You have a reviewed plan that Claude generated using YOUR project context — before a single line of code was written."
+    proof: "You have a reviewed plan that Claude generated using YOUR project context — before a single line of code was written. The plan references your conventions, not generic patterns."
   },
   4: {
     title: 'the integrations layer.',
     time: '~5 min',
     promise: 'your AI reaches the tools you actually use',
-    context: "your AI can read your code. it can't read your Jira tickets, your Figma designs, your crash logs, or your build output. it's working with one hand tied behind its back and you never untied it.",
+    context: "the engineer replacing you doesn't leave the terminal to copy-paste from Jira, Figma, or crash logs. their AI is plugged into everything through MCP — the USB-C of AI tools. one protocol, every integration. yours still can't read a ticket without you switching tabs.",
     steps: [
       { text: 'Run <code>claude mcp list</code> — what\'s connected?', detail: 'What\'s missing from your daily workflow? Where do you still leave the terminal to copy-paste context?', code: 'claude mcp list' },
       { text: 'Add one MCP server that closes a real gap', detail: '<strong>Figma</strong> — design-to-code, push UIs back. <a href="https://help.figma.com/hc/en-us/articles/32132100833559" target="_blank" style="color: var(--black);">docs →</a><br><strong>Atlassian</strong> — Jira tickets + Confluence docs in your session. <a href="https://www.atlassian.com/platform/remote-mcp-server" target="_blank" style="color: var(--black);">docs →</a><br><strong>Context7</strong> — real-time library docs, no more hallucinated APIs. <a href="https://github.com/upstash/context7" target="_blank" style="color: var(--black);">docs →</a><br><strong>Playwright</strong> — browser automation, self-QA your UI. <a href="https://github.com/microsoft/playwright-mcp" target="_blank" style="color: var(--black);">docs →</a><br><strong>XcodeBuildMCP</strong> — build, test, debug iOS without opening Xcode. <a href="https://github.com/getsentry/XcodeBuildMCP" target="_blank" style="color: var(--black);">docs →</a>', code: '# Pick one:\n\n# Design — Figma (configured as plugin, verify with /mcp)\n\n# Project management — Jira + Confluence\nclaude mcp add -t streamable-http atlassian https://mcp.atlassian.com/v1/mcp\n\n# Documentation — real-time library docs\nclaude mcp add context7 -- npx -y @upstash/context7-mcp@latest\n\n# Browser automation — Playwright\nclaude mcp add playwright -- npx -y @playwright/mcp@latest\n\n# iOS/macOS — build, test, debug\nclaude mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp' },
