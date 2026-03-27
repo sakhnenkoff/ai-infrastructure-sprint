@@ -551,6 +551,21 @@
       display: none;
     }
   }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .arch-layer.layer-active {
+      animation: none;
+    }
+    .arch-sidebar.reveal-mode .arch-layer {
+      animation: none;
+      opacity: 1;
+      color: var(--black);
+    }
+    .arch-dot-mobile.active {
+      animation: none;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1315,6 +1330,7 @@ document.querySelectorAll('#block-5 .step-check').forEach((el, i) => {
 
 // ── INIT ──
 Router.init();
+updateDiagram();
 </script>
 
 </body>
